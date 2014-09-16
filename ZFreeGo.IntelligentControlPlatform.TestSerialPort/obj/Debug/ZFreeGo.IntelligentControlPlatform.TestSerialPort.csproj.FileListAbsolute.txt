@@ -1,0 +1,5 @@
+G:\MyCode\WPF\IntelligentControlPlatform\ZFreeGo.IntelligentControlPlatform.TestSerialPort\bin\Debug\ZFreeGo.IntelligentControlPlatform.TestSerialPort.exe
+G:\MyCode\WPF\IntelligentControlPlatform\ZFreeGo.IntelligentControlPlatform.TestSerialPort\bin\Debug\ZFreeGo.IntelligentControlPlatform.TestSerialPort.pdb
+G:\MyCode\WPF\IntelligentControlPlatform\ZFreeGo.IntelligentControlPlatform.TestSerialPort\obj\Debug\ZFreeGo.IntelligentControlPlatform.TestSerialPort.csprojResolveAssemblyReference.cache
+G:\MyCode\WPF\IntelligentControlPlatform\ZFreeGo.IntelligentControlPlatform.TestSerialPort\obj\Debug\ZFreeGo.IntelligentControlPlatform.TestSerialPort.exe
+G:\MyCode\WPF\IntelligentControlPlatform\ZFreeGo.IntelligentControlPlatform.TestSerialPort\obj\Debug\ZFreeGo.IntelligentControlPlatform.TestSerialPort.pdb

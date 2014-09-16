@@ -8,7 +8,7 @@ namespace ZFreeGo.IntelligentControlPlatform.TestSerialPort
     {
         static bool _continue;
         static SerialPort _serialPort;
-        sbyte sd = 0;
+        
         public static void Main()
         {
             string name;
