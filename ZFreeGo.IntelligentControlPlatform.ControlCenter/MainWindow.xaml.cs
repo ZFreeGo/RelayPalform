@@ -24,6 +24,19 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
             InitializeComponent();
         }
 
+        private void Window_Closed(object sender, EventArgs e)
+        {
+            if (serialPort != null)
+            {
+                if (readThread != null)
+                {
+                    readThread.Join(500);
+                    readThread.Abort();
+                }
+                serialPort.Close();
+            }
+        }
+
         
 
         

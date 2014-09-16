@@ -95,6 +95,12 @@
     </None>
     <AppDesigner Include="Properties\" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ZFreeGo.IntelligentControlPlatform.Modbus\ZFreeGo.IntelligentControlPlatform.Modbus.csproj">
+      <Project>{731eaac4-6e00-4183-8f58-86fced5573ef}</Project>
+      <Name>ZFreeGo.IntelligentControlPlatform.Modbus</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -22,7 +22,7 @@ namespace ZFreeGo.IntelligentControlPlatform.Modbus
             byte uchCRCLo = 0xFF; /* 初始化低字节*/
             ushort uIndex; /*把CRC表*/
             uint i = 0;
-            while (usDataLen == 0) /*通过数据缓冲器*/
+            while (usDataLen != 0) /*通过数据缓冲器*/
             {
                 usDataLen = (ushort)(usDataLen - 1);
                 uIndex = (ushort)(uchCRCHi ^ puchMsg[i++]); /*计算CRC*/

@@ -44,7 +44,7 @@ namespace ZFreeGo.IntelligentControlPlatform.Modbus
                 tmp.AddRange(reciveData);
                 tmp.RemoveRange(0, 3); //去除头
                 tmp.RemoveRange(len, 2); //去除尾巴
-                reciveFrame = new RTUFrame(reciveData[0], (FunEnum)reciveData[1], tmp.ToArray(), (byte)len);
+                reciveFrame = new RTUFrame(reciveData[0], reciveData[1], tmp.ToArray(), (byte)len);
 
                 sendFrame.CompleteFlag = true; //防止重复响应
                 return true;
@@ -101,7 +101,7 @@ namespace ZFreeGo.IntelligentControlPlatform.Modbus
                 tmp.AddRange(array);
                 tmp.RemoveRange(0, 3); //去除头
 
-                ReciveFrame = new RTUFrame(array[0], (FunEnum)array[1], tmp.ToArray(), (byte)len);
+                ReciveFrame = new RTUFrame(array[0], array[1], tmp.ToArray(), (byte)len);
 
                 sendFrame.CompleteFlag = true; //防止重复响应
                 return true;

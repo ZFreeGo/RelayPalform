@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Windows;
+using ZFreeGo.IntelligentControlPlatform.Modbus;
 
 namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
 {
@@ -148,9 +149,15 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
             }
             
         }
+        
         private void sendTest_Click(object sender, RoutedEventArgs e)
         {
-            serialPort.WriteLine("ABCDEF0123456789!");
+            var data = new byte[2] ;
+            data[0] = byte.Parse(dataHiTxt.Text);
+            data[1] = byte.Parse(dataLoTxt.Text);
+            RTUFrame frame = new RTUFrame(byte.Parse(deviceAddrTxt.Text), byte.Parse(funCodeTxt.Text),
+                                     data,byte.Parse(dataLenTxt.Text));
+            serialPort.Write(frame.Frame, 0, frame.Frame.Length);
         }
         private void Read()
         {

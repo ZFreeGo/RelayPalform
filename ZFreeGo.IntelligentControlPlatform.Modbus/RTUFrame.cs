@@ -5,29 +5,29 @@ using System.Text;
 
 namespace ZFreeGo.IntelligentControlPlatform.Modbus
 {
-    class RTUFrame
+    public class RTUFrame
     {
         //完整一帧
         private byte[] frame;
         public byte[] Frame
         {
-            public get { return frame; } 
+             get { return frame; } 
         }
 
         private byte address;
         public byte Address
         {
-            public get { return address; }
+             get { return address; }
         }
         private byte function;
         public byte Function
         {
-            public get { return function; }
+             get { return function; }
         }
         private byte[] framedata;
         public byte[] FrameData
         {
-            public get { return framedata; }
+            get { return framedata; }
         }
 
 
@@ -45,7 +45,7 @@ namespace ZFreeGo.IntelligentControlPlatform.Modbus
             //set { dataLen = value; }
         }
 
-        public  RTUFrame(byte addr, FunEnum funcode,
+        public  RTUFrame(byte addr, byte funcode,
                         byte[] sendData, byte datalen)
         {
             //addrss(1) funcode(1) + bytecount(1) sendData(datalen) CRC(2)

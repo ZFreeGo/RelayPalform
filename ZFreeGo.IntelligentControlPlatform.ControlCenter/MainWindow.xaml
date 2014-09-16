@@ -1,7 +1,7 @@
 ﻿<Window x:Class="ZFreeGo.IntelligentControlPlatform.ControlCenter.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="MainWindow" Height="400" Width="600" Loaded="Window_Loaded">
+        Title="MainWindow" Height="400" Width="600" Loaded="Window_Loaded" Closed="Window_Closed">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"></ColumnDefinition>
@@ -38,5 +38,16 @@
         </Grid>
         <ListBox Name="reciveListBox" Grid.Column="1" Grid.Row="0"></ListBox>
         <Button Name="sendTest" Click="sendTest_Click" Grid.Column="0" Grid.Row="1">Send</Button>
+        <WrapPanel Grid.Column="1" Grid.Row="1">
+            <Label>地址：</Label>
+            <TextBox Name="deviceAddrTxt">254</TextBox>
+            <Label >功能：</Label>
+            <TextBox Name="funCodeTxt">101</TextBox>
+            <Label >数据长度：</Label>
+            <TextBox Name="dataLenTxt">2</TextBox>
+            <Label>数据：</Label>
+            <TextBox Name="dataHiTxt">11</TextBox>
+            <TextBox Name="dataLoTxt">12</TextBox>
+        </WrapPanel>
     </Grid>
 </Window>
