@@ -1,0 +1,14 @@
+G:\MyCode\WPF\IntelligentControlPlatform\ZFreeGo.IntelligentControlPlatform.ControlCenter\bin\Debug\ZFreeGo.IntelligentControlPlatform.ControlCenter.exe
+G:\MyCode\WPF\IntelligentControlPlatform\ZFreeGo.IntelligentControlPlatform.ControlCenter\bin\Debug\ZFreeGo.IntelligentControlPlatform.ControlCenter.pdb
+G:\MyCode\WPF\IntelligentControlPlatform\ZFreeGo.IntelligentControlPlatform.ControlCenter\obj\Debug\ZFreeGo.IntelligentControlPlatform.ControlCenter.csprojResolveAssemblyReference.cache
+G:\MyCode\WPF\IntelligentControlPlatform\ZFreeGo.IntelligentControlPlatform.ControlCenter\obj\Debug\MainWindow.baml
+G:\MyCode\WPF\IntelligentControlPlatform\ZFreeGo.IntelligentControlPlatform.ControlCenter\obj\Debug\MainWindow.g.cs
+G:\MyCode\WPF\IntelligentControlPlatform\ZFreeGo.IntelligentControlPlatform.ControlCenter\obj\Debug\App.g.cs
+G:\MyCode\WPF\IntelligentControlPlatform\ZFreeGo.IntelligentControlPlatform.ControlCenter\obj\Debug\ZFreeGo.IntelligentControlPlatform.ControlCenter_MarkupCompile.cache
+G:\MyCode\WPF\IntelligentControlPlatform\ZFreeGo.IntelligentControlPlatform.ControlCenter\obj\Debug\ZFreeGo.IntelligentControlPlatform.ControlCenter.g.resources
+G:\MyCode\WPF\IntelligentControlPlatform\ZFreeGo.IntelligentControlPlatform.ControlCenter\obj\Debug\ZFreeGo.IntelligentControlPlatform.ControlCenter.Properties.Resources.resources
+G:\MyCode\WPF\IntelligentControlPlatform\ZFreeGo.IntelligentControlPlatform.ControlCenter\obj\Debug\ZFreeGo.IntelligentControlPlatform.ControlCenter.csproj.GenerateResource.Cache
+G:\MyCode\WPF\IntelligentControlPlatform\ZFreeGo.IntelligentControlPlatform.ControlCenter\obj\Debug\ZFreeGo.IntelligentControlPlatform.ControlCenter.exe
+G:\MyCode\WPF\IntelligentControlPlatform\ZFreeGo.IntelligentControlPlatform.ControlCenter\obj\Debug\ZFreeGo.IntelligentControlPlatform.ControlCenter.pdb
+G:\MyCode\WPF\IntelligentRelayControlPlatform\ZFreeGo.IntelligentControlPlatform.ControlCenter\obj\Debug\ZFreeGo.IntelligentControlPlatform.ControlCenter.exe
+G:\MyCode\WPF\IntelligentRelayControlPlatform\ZFreeGo.IntelligentControlPlatform.ControlCenter\obj\Debug\ZFreeGo.IntelligentControlPlatform.ControlCenter.pdb
