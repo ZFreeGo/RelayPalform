@@ -1,0 +1,49 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30501.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZFreeGo.IntelligentControlPlatform.Modbus", "ZFreeGo.IntelligentControlPlatform.Modbus\ZFreeGo.IntelligentControlPlatform.Modbus.csproj", "{731EAAC4-6E00-4183-8F58-86FCED5573EF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZFreeGo.IntelligentControlPlatform.ControlCenter", "ZFreeGo.IntelligentControlPlatform.ControlCenter\ZFreeGo.IntelligentControlPlatform.ControlCenter.csproj", "{7E324441-29FF-42A3-8810-7C3980D5DBBD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ZFreeGo.IntelligentControlPlatform.TestSerialPort", "ZFreeGo.IntelligentControlPlatform.TestSerialPort\ZFreeGo.IntelligentControlPlatform.TestSerialPort.csproj", "{08B8C1D6-95CD-4EEF-8807-898906BB12DE}"
+EndProject
+Global
+	GlobalSection(TeamFoundationVersionControl) = preSolution
+		SccNumberOfProjects = 4
+		SccEnterpriseProvider = {4CA58AB2-18FA-4F8D-95D4-32DDF27D184C}
+		SccTeamFoundationServer = https://zfreego.visualstudio.com/defaultcollection
+		SccLocalPath0 = .
+		SccProjectUniqueName1 = ZFreeGo.IntelligentControlPlatform.ControlCenter\\ZFreeGo.IntelligentControlPlatform.ControlCenter.csproj
+		SccProjectName1 = ZFreeGo.IntelligentControlPlatform.ControlCenter
+		SccLocalPath1 = ZFreeGo.IntelligentControlPlatform.ControlCenter
+		SccProjectUniqueName2 = ZFreeGo.IntelligentControlPlatform.Modbus\\ZFreeGo.IntelligentControlPlatform.Modbus.csproj
+		SccProjectName2 = ZFreeGo.IntelligentControlPlatform.Modbus
+		SccLocalPath2 = ZFreeGo.IntelligentControlPlatform.Modbus
+		SccProjectUniqueName3 = ZFreeGo.IntelligentControlPlatform.TestSerialPort\\ZFreeGo.IntelligentControlPlatform.TestSerialPort.csproj
+		SccProjectName3 = ZFreeGo.IntelligentControlPlatform.TestSerialPort
+		SccLocalPath3 = ZFreeGo.IntelligentControlPlatform.TestSerialPort
+	EndGlobalSection
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{731EAAC4-6E00-4183-8F58-86FCED5573EF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{731EAAC4-6E00-4183-8F58-86FCED5573EF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{731EAAC4-6E00-4183-8F58-86FCED5573EF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{731EAAC4-6E00-4183-8F58-86FCED5573EF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7E324441-29FF-42A3-8810-7C3980D5DBBD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7E324441-29FF-42A3-8810-7C3980D5DBBD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7E324441-29FF-42A3-8810-7C3980D5DBBD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7E324441-29FF-42A3-8810-7C3980D5DBBD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{08B8C1D6-95CD-4EEF-8807-898906BB12DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{08B8C1D6-95CD-4EEF-8807-898906BB12DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{08B8C1D6-95CD-4EEF-8807-898906BB12DE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{08B8C1D6-95CD-4EEF-8807-898906BB12DE}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
