@@ -34,6 +34,12 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
             UpdatePortDataBits(serialPort.DataBits);
             UpdatePortParity(serialPort.Parity);
             UpdatePortStopBits(serialPort.StopBits);
+
+            //serialPort.BytesToRead;
+            serialPort.ReadTimeout = 500;
+            serialPort.WriteTimeout = 500;
+            //serialPort.DataReceived += DataReceivedHandler;
+
         }
 
         public  void  UpdatePortName(string defaultPortName)
@@ -113,14 +119,16 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
 
                     serialPort.StopBits = (StopBits)Enum.Parse(typeof(StopBits), stopBits.SelectedItem.ToString());
 
-                    serialPort.ReadTimeout = 500;
-                    serialPort.WriteTimeout = 500;
+                    
 
                     serialPort.Open();
 
 
                     readThread = new Thread(Read);
+                  
                     readThread.Start();
+
+
                 }
                 else
                 {
@@ -133,9 +141,12 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
                     stopBits.IsEnabled = true;
 
                     readThread.Join(500);
-                   // readThread.Abort();
+                    readThread.Abort();
+                    if (serialPort.IsOpen)
+                    {
+                        serialPort.Close();
+                    }
                     
-                    serialPort.Close();
                 }
 
 
@@ -149,33 +160,84 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
             }
             
         }
-        
+        RTUFrame sendFrame;
         private void sendTest_Click(object sender, RoutedEventArgs e)
         {
             var data = new byte[2] ;
             data[0] = byte.Parse(dataHiTxt.Text);
             data[1] = byte.Parse(dataLoTxt.Text);
-            RTUFrame frame = new RTUFrame(byte.Parse(deviceAddrTxt.Text), byte.Parse(funCodeTxt.Text),
+            sendFrame = new RTUFrame(byte.Parse(deviceAddrTxt.Text), byte.Parse(funCodeTxt.Text),
                                      data,byte.Parse(dataLenTxt.Text));
-            serialPort.Write(frame.Frame, 0, frame.Frame.Length);
+            serialPort.Write(sendFrame.Frame, 0, sendFrame.Frame.Length);
+        }
+
+        private  void DataReceivedHandler(
+                        object sender,
+                        SerialDataReceivedEventArgs e)
+        {
+
+            Action<object> call = ar => { reciveListBox.Items.Add(ar); reciveListBox.ScrollIntoView(ar); };
+
+            //Dispatcher.BeginInvoke(call, "start");
+
+            SerialPort sp = (SerialPort)sender;
+            string indata = sp.ReadExisting();
+            //Console.WriteLine("Data Received:");
+           // Console.Write(indata);
+            Dispatcher.BeginInvoke(call, indata);
         }
         private void Read()
         {
-            Action<object> call = ar => reciveListBox.Items.Add(ar);
+            Action<object> call = ar => { reciveListBox.Items.Add(ar); reciveListBox.ScrollIntoView(ar); };
+            Func<byte> reciveByte = () =>
+            {
+                
+                return (byte)serialPort.ReadByte();
+            };
 
-            Dispatcher.BeginInvoke(call, "start");
+            Action<RTUFrame> callShowRecivFrame = ar =>
+                {
+                    deviceAddrReciveTxt.Text = ar.Address.ToString();
+                    funCodeReciveTxt.Text = ar.Function.ToString();
+                    dataLenReciveTxt.Text = ar.DataLen.ToString();
+                    dataHiReciveTxt.Text = ar.FrameData[0].ToString();
+                    dataLoReciveTxt.Text = ar.FrameData[1].ToString();
+      
+                };
+
+            var reciveTool = new ReciveRtuFrame();
+            reciveTool.ReciveAbyte = reciveByte;
+           /// Dispatcher.BeginInvoke(call, "start");
             while (portState)
             {
                 try
                 {
-                    
-                    string message = serialPort.ReadLine();
-                    if (message != "")
+                    try
                     {
-                        Dispatcher.BeginInvoke(call, message);
+
+                        if (reciveTool.JudgeGetByte(sendFrame))
+                        {
+                            Dispatcher.BeginInvoke(call, "接收帧");
+                            foreach (var cha in reciveTool.ReciveFrame.Frame)
+                            {
+                                Dispatcher.BeginInvoke(call, cha);
+                            }
+                            Dispatcher.BeginInvoke(callShowRecivFrame, reciveTool.ReciveFrame);
+                            
+                        }
+                        Thread.Sleep(100);
+                        //string message = serialPort.ReadLine();
+                        //var message = serialPort.ReadByte();
+
+                        //Dispatcher.BeginInvoke(call, message);
+
                     }
+                    catch (TimeoutException) { }
                 }
-                catch (TimeoutException) { }
+                catch (Exception ex)
+                {
+                    Trace.WriteLine("串口接收进程::" + ex.Message);
+                }
             }
         }
     }

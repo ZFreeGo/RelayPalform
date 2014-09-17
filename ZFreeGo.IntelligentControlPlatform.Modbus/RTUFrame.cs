@@ -71,7 +71,32 @@ namespace ZFreeGo.IntelligentControlPlatform.Modbus
 
             completeFlag = false;
         }
-        
+        public RTUFrame(byte addr, byte funcode,
+                        byte[] sendData, byte datalen,  byte crcLi, byte crcHo)
+        {
+            //addrss(1) funcode(1) + bytecount(1) sendData(datalen) CRC(2)
+            int len = 1 + 1 + +1 + datalen + 2;
+            frame = new byte[len];
+
+            this.dataLen = datalen;
+            this.address = addr;
+            this.function = (byte)funcode;
+            this.framedata = new byte[datalen];
+            for (int i = 0; i < datalen; i++)
+            {
+                this.framedata[i] = sendData[i];
+                frame[i + 3] = sendData[i];
+            }
+            frame[0] = addr;
+            frame[1] = (byte)funcode;
+            frame[2] = (byte)datalen;
+
+
+            frame[len - 2] = crcLi; //低8位
+            frame[len - 1] = crcHo;//高8位
+
+            completeFlag = false;
+        }
 
         private RTUFrame()
         {

@@ -28,12 +28,21 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
         {
             if (serialPort != null)
             {
-                if (readThread != null)
+                
+                if (serialPort.IsOpen)
                 {
-                    readThread.Join(500);
-                    readThread.Abort();
+                    serialPort.Close();
                 }
-                serialPort.Close();
+                
+            }
+            if (readThread != null)
+            {
+                readThread.Join(500);
+                readThread.Abort();
+                if (serialPort.IsOpen)
+                {
+                    serialPort.Close();
+                }
             }
         }
 

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace ZFreeGo.IntelligentControlPlatform.Modbus
 {
-    internal class ReciveRtuFrame
+    public class ReciveRtuFrame
     {
         /// <summary>
         /// 从字节流中判断是否为相应帧
@@ -16,8 +16,8 @@ namespace ZFreeGo.IntelligentControlPlatform.Modbus
         public bool JudgeResponseFrame(List<byte> reciveData, RTUFrame sendFrame,RTUFrame reciveFrame)
         {
             //首先判断这一帧是否已经完成响应
-            if (!sendFrame.CompleteFlag)
-            {
+            //if (!sendFrame.CompleteFlag)
+            { //测试注销
                 //判断 查询地址 与 发送地址 是否一致
                 if (reciveData[0] != sendFrame.Address)
                     return false;
@@ -49,23 +49,29 @@ namespace ZFreeGo.IntelligentControlPlatform.Modbus
                 sendFrame.CompleteFlag = true; //防止重复响应
                 return true;
             }
-            else
-            {
-                return false;
-            }
+            //else
+            //{
+            //    return false;
+            //}
             
         }
 
         //适应一个一个字节的接收
-        byte GetByte()
+        private byte GetByte()
         {
+            if (ReciveAbyte != null)
+            {
+                return ReciveAbyte();
+            }
+            
             return 0x00;
         }
+        public  Func<byte>  ReciveAbyte;
         public RTUFrame ReciveFrame;
         public bool JudgeGetByte(RTUFrame sendFrame)
         {
             //首先判断这一帧是否已经完成响应
-            if (!sendFrame.CompleteFlag)
+          //  if (!sendFrame.CompleteFlag)
             {
                 //判断 查询地址 与 发送地址 是否一致
                 if (GetByte() != sendFrame.Address)
@@ -101,16 +107,17 @@ namespace ZFreeGo.IntelligentControlPlatform.Modbus
                 tmp.AddRange(array);
                 tmp.RemoveRange(0, 3); //去除头
 
-                ReciveFrame = new RTUFrame(array[0], array[1], tmp.ToArray(), (byte)len);
+                ReciveFrame = new RTUFrame(array[0], array[1], tmp.ToArray(),
+                    (byte)len, low, hig);
 
                 sendFrame.CompleteFlag = true; //防止重复响应
                 return true;
 
             }
-            else
-            {
-                return false;
-            }
+          //  else
+          //  {
+          //      return false;
+          //  }
         }
     }
 }

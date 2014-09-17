@@ -11,7 +11,7 @@
             <RowDefinition ></RowDefinition>
             <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
-        <Grid Grid.Column="0" Grid.Row="0" >
+        <Grid Grid.Column="0" Grid.Row="0" Background="Aquamarine">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"></ColumnDefinition>
                 <ColumnDefinition Width="2*"></ColumnDefinition>
@@ -39,15 +39,34 @@
         <ListBox Name="reciveListBox" Grid.Column="1" Grid.Row="0"></ListBox>
         <Button Name="sendTest" Click="sendTest_Click" Grid.Column="0" Grid.Row="1">Send</Button>
         <WrapPanel Grid.Column="1" Grid.Row="1">
-            <Label>地址：</Label>
-            <TextBox Name="deviceAddrTxt">254</TextBox>
-            <Label >功能：</Label>
-            <TextBox Name="funCodeTxt">101</TextBox>
-            <Label >数据长度：</Label>
-            <TextBox Name="dataLenTxt">2</TextBox>
-            <Label>数据：</Label>
-            <TextBox Name="dataHiTxt">11</TextBox>
-            <TextBox Name="dataLoTxt">12</TextBox>
+            <GroupBox Header="发送帧" Background="AliceBlue">
+                <WrapPanel Margin="3">
+                    <Label>地址：</Label>
+                    <TextBox Name="deviceAddrTxt">254</TextBox>
+                    <Label >功能：</Label>
+                    <TextBox Name="funCodeTxt">101</TextBox>
+                    <Label >数据长度：</Label>
+                    <TextBox Name="dataLenTxt">2</TextBox>
+                    <Label>数据：</Label>
+                    <TextBox Name="dataHiTxt">11</TextBox>
+                    <TextBox Name="dataLoTxt">12</TextBox>
+                </WrapPanel>
+            </GroupBox>
+
+            <GroupBox Header="接受帧" Margin="0,10,0,0" Background="AntiqueWhite">
+                <WrapPanel Margin="3">
+                    <Label>地址：</Label>
+                    <TextBox Name="deviceAddrReciveTxt">254</TextBox>
+                    <Label >功能：</Label>
+                    <TextBox Name="funCodeReciveTxt">101</TextBox>
+                    <Label >数据长度：</Label>
+                    <TextBox Name="dataLenReciveTxt">2</TextBox>
+                    <Label>数据：</Label>
+                    <TextBox Name="dataHiReciveTxt">11</TextBox>
+                    <TextBox Name="dataLoReciveTxt">12</TextBox>
+                </WrapPanel>
+
+            </GroupBox>
         </WrapPanel>
     </Grid>
 </Window>
