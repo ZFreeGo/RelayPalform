@@ -49,7 +49,7 @@ namespace ZFreeGo.IntelligentControlPlatform.Modbus
                         byte[] sendData, byte datalen)
         {
             //addrss(1) funcode(1) + bytecount(1) sendData(datalen) CRC(2)
-            int len = 1 + 1 +  + 1 + datalen + 2;
+            int len = 1 + 1 + 1 + datalen + 2;
             frame = new byte[len];
 
             this.dataLen = datalen;
@@ -65,9 +65,9 @@ namespace ZFreeGo.IntelligentControlPlatform.Modbus
             frame[1] = (byte)funcode;
             frame[2] = (byte)datalen;
 
-            ushort crc =  GenCRC.CRC16(frame, (ushort)(len - 2));
+            ushort crc = GenCRC.CRC16(frame, (ushort)(len -2));
             frame[len - 2] = (byte)(crc & 0xFF); //低8位
-            frame[len - 1] = (byte)(crc & 0xFF00 >> 8);//高8位
+            frame[len - 1] = (byte)((crc & 0xFF00) >> 8);//高8位
 
             completeFlag = false;
         }
@@ -75,7 +75,7 @@ namespace ZFreeGo.IntelligentControlPlatform.Modbus
                         byte[] sendData, byte datalen,  byte crcLi, byte crcHo)
         {
             //addrss(1) funcode(1) + bytecount(1) sendData(datalen) CRC(2)
-            int len = 1 + 1 + +1 + datalen + 2;
+            int len = 1 + 1 +1 + datalen + 2;
             frame = new byte[len];
 
             this.dataLen = datalen;
@@ -97,7 +97,33 @@ namespace ZFreeGo.IntelligentControlPlatform.Modbus
 
             completeFlag = false;
         }
+        /// <summary>
+        /// 生成发送帧，适用于只有功能代码的类型.
+        /// </summary>
+        /// <param name="addr"></param>
+        /// <param name="funcode"></param>
+        public RTUFrame(byte addr, FunEnum funcode)
+        {
+            //addrss(1) funcode(1) + bytecount(1) sendData(datalen) CRC(2)
+            byte datalen = 0;
+            int len = 1 + 1 +1 + datalen + 2;
+            frame = new byte[len];
 
+            this.dataLen = datalen;
+            this.address = addr;
+            this.function = (byte)funcode;
+            this.framedata = new byte[datalen];
+          
+            frame[0] = addr;
+            frame[1] = (byte)funcode;
+            frame[2] = (byte)datalen;
+
+            ushort crc = GenCRC.CRC16(frame, (ushort)(len - 2));
+            frame[len - 2] = (byte)(crc & 0xFF); //低8位
+            frame[len - 1] = (byte)((crc & 0xFF00) >> 8);//高8位
+
+            completeFlag = false;
+        }
         private RTUFrame()
         {
 

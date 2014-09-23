@@ -77,13 +77,16 @@ namespace ZFreeGo.IntelligentControlPlatform.Modbus
                 if (GetByte() != sendFrame.Address)
                     return false;
 
-                if (GetByte() != sendFrame.Function)
-                    return false;
+                //if (GetByte() != sendFrame.Function)
+                //    return false;
+                var fun = GetByte();
+                
                 int len = GetByte(); //获取数据字节数
 
                 byte[] array = new byte[len + 3];
                 array[0] = sendFrame.Address;
-                array[1] = sendFrame.Function;
+                //array[1] = sendFrame.Function;
+                array[1] = fun;
                 array[2] = (byte)len;
                 for (int i = 0; i < len; i++ )
                 {

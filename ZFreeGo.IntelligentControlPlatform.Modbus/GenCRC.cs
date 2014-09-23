@@ -20,16 +20,16 @@ namespace ZFreeGo.IntelligentControlPlatform.Modbus
         {
             byte uchCRCHi = 0xFF; /* 初始化高字节*/
             byte uchCRCLo = 0xFF; /* 初始化低字节*/
-            ushort uIndex; /*把CRC表*/
-            uint i = 0;
+            byte uIndex = 0; /*CRC表*/
+            byte i = 0;
             while (usDataLen != 0) /*通过数据缓冲器*/
             {
                 usDataLen = (ushort)(usDataLen - 1);
-                uIndex = (ushort)(uchCRCHi ^ puchMsg[i++]); /*计算CRC*/
+                uIndex = (byte)(uchCRCHi ^ puchMsg[i++]); /*计算CRC*/
                 uchCRCHi = (byte)(uchCRCLo ^ auchCRCHi[uIndex]);
                 uchCRCLo = auchCRCLo[uIndex];
             }
-            return (ushort)(uchCRCHi << 8 | uchCRCLo);
+            return (ushort)((ushort)uchCRCHi << 8 | uchCRCLo);
         }
 
         //高字节位
