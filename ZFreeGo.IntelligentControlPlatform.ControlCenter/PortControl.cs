@@ -40,8 +40,15 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
             serialPort.WriteTimeout = 500;
             //serialPort.DataReceived += DataReceivedHandler;
 
-        }
+            sendTest.IsEnabled = false;
+            HexShow();
 
+
+        }
+        void HexShow()
+        {
+            deviceAddrTxt.Text = String.Format("{0:x}", 32, 23);
+        }
         public  void  UpdatePortName(string defaultPortName)
         {
             foreach (string s in SerialPort.GetPortNames())
@@ -104,13 +111,7 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
             {
                 if (!portState)
                 {
-                    portState = true;
-                    openSerialPort.Content = "关闭串口";
-                    portName.IsEnabled = false;
-                    baudRate.IsEnabled = false;
-                    dataBits.IsEnabled = false;
-                    portParity.IsEnabled = false;
-                    stopBits.IsEnabled = false;
+                    
 
                     serialPort.PortName = portName.SelectedItem as string;
                     serialPort.BaudRate = (int)baudRate.SelectedItem;
@@ -123,16 +124,34 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
 
                     serialPort.Open();
 
-
+                    portState = true;
                     readThread = new Thread(Read);
                   
                     readThread.Start();
 
+                    
+                    openSerialPort.Content = "关闭串口";
+                    portName.IsEnabled = false;
+                    baudRate.IsEnabled = false;
+                    dataBits.IsEnabled = false;
+                    portParity.IsEnabled = false;
+                    stopBits.IsEnabled = false;
+
+                    sendTest.IsEnabled = true;
 
                 }
                 else
                 {
+
                     portState = false;
+                    readThread.Join(500);
+                    readThread.Abort();
+                    if (serialPort.IsOpen)
+                    {
+                        serialPort.Close();
+                    }
+
+                   
                     openSerialPort.Content = "打开串口";
                     portName.IsEnabled = true;
                     baudRate.IsEnabled = true;
@@ -140,12 +159,7 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
                     portParity.IsEnabled = true;
                     stopBits.IsEnabled = true;
 
-                    readThread.Join(500);
-                    readThread.Abort();
-                    if (serialPort.IsOpen)
-                    {
-                        serialPort.Close();
-                    }
+                    sendTest.IsEnabled = false;
                     
                 }
 
@@ -160,16 +174,7 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
             }
             
         }
-        RTUFrame sendFrame;
-        private void sendTest_Click(object sender, RoutedEventArgs e)
-        {
-            var data = new byte[2] ;
-            data[0] = byte.Parse(dataHiTxt.Text);
-            data[1] = byte.Parse(dataLoTxt.Text);
-            sendFrame = new RTUFrame(byte.Parse(deviceAddrTxt.Text), byte.Parse(funCodeTxt.Text),
-                                     data,byte.Parse(dataLenTxt.Text));
-            serialPort.Write(sendFrame.Frame, 0, sendFrame.Frame.Length);
-        }
+        
 
         private  void DataReceivedHandler(
                         object sender,
@@ -197,11 +202,16 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
 
             Action<RTUFrame> callShowRecivFrame = ar =>
                 {
-                    deviceAddrReciveTxt.Text = ar.Address.ToString();
-                    funCodeReciveTxt.Text = ar.Function.ToString();
-                    dataLenReciveTxt.Text = ar.DataLen.ToString();
-                    dataHiReciveTxt.Text = ar.FrameData[0].ToString();
-                    dataLoReciveTxt.Text = ar.FrameData[1].ToString();
+                    deviceAddrReciveTxt.Text = String.Format("{0:X}, ", ar.Address);
+                    funCodeReciveTxt.Text = String.Format("{0:X}", ar.Function);
+                    dataLenReciveTxt.Text = String.Format("{0:X}",ar.DataLen);
+                   
+                    dataReciveTxt.Text = "";
+                    foreach (var data in ar.FrameData)
+                    {
+                        dataReciveTxt.Text += String.Format("{0:X} ", data);
+                    }
+
       
                 };
 
