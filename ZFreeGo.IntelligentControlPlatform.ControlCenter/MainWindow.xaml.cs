@@ -149,6 +149,14 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
 
                     }
                 }
+                //最后单位检测
+                if (str != null)
+                {
+                    if (str.Length == 1)
+                    {
+                        result.Add(str);
+                    }
+                }
                 return result;
             }
             catch (Exception ex)

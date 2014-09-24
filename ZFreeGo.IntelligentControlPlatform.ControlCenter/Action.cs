@@ -10,7 +10,7 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
 {
     public partial class MainWindow
     {
-        private const  byte downComputeAddress = 0xFE;
+        private const  byte downComputeAddress = 0xEA;
         private RTUFrame sendFrame;
         private void sendTest_Click(object sender, RoutedEventArgs e)
         {
