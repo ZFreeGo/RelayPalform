@@ -24,3 +24,5 @@ G:\MyCode\WPF\IntelligentRelayControlPlatform\ZFreeGo.IntelligentControlPlatform
 G:\MyCode\WPF\IntelligentRelayControlPlatform\ZFreeGo.IntelligentControlPlatform.ControlCenter\obj\Debug\ZFreeGo.IntelligentControlPlatform.ControlCenter.csproj.GenerateResource.Cache
 G:\MyCode\WPF\IntelligentRelayControlPlatform\ZFreeGo.IntelligentControlPlatform.ControlCenter\bin\Debug\ZFreeGo.IntelligentControlPlatform.Modbus.dll
 G:\MyCode\WPF\IntelligentRelayControlPlatform\ZFreeGo.IntelligentControlPlatform.ControlCenter\bin\Debug\ZFreeGo.IntelligentControlPlatform.Modbus.pdb
+G:\MyCode\Dotnet\IntelligentRelayControlPlatform\ZFreeGo.IntelligentControlPlatform.ControlCenter\obj\Debug\ZFreeGo.IntelligentControlPlatform.ControlCenter.exe
+G:\MyCode\Dotnet\IntelligentRelayControlPlatform\ZFreeGo.IntelligentControlPlatform.ControlCenter\obj\Debug\ZFreeGo.IntelligentControlPlatform.ControlCenter.pdb
