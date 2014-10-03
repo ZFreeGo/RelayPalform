@@ -47,7 +47,7 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
         }
         void HexShow()
         {
-            deviceAddrTxt.Text = String.Format("{0:x}", 32, 23);
+            deviceAddrTxt.Text = String.Format("{0:x}", 0xea);
         }
         public  void  UpdatePortName(string defaultPortName)
         {
