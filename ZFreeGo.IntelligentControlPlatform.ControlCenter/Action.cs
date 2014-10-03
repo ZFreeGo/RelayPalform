@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using ZFreeGo.IntelligentControlPlatform.Modbus;
@@ -237,6 +238,56 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
                     }
                 }
             }
+        }
+
+        //折算到ADC值后的电流平方和
+        ushort[] currentSqureSum =
+        new ushort[]{
+            4624,5075,5547,6040,6554,7088,7644,8221,8819,9437,10077,10737,11419,12122,12845,
+            13590,14355,15141,15949,16777,17627,18497,19388,20300,21234,22188,23163,24159,25176,
+            26214,27273,28353,29454,30576,31719,32883,34068,35274,36501,37749
+        };
+        //时间倒数 并放大3*1e5 倍数
+        ushort[] timeDaoshu =
+        {
+            300,308,316,325,334,344,354,365,377,389,403,417,432,449,467,486,507,530,555,582,
+            613,646,684,726,774,828,891,964,1050,1153,1279,1435,1634,1898,2263,2802,3679,5355,9832,60000
+        };
+
+        /// <summary>
+        /// 写下位机EEPROM，每20个字节一组，中间暂停100ms，留出下位机处理时间。
+        /// 注意写入范围限制在0xff 以内
+        /// </summary>
+        /// <param name="writeData">将要写入下位机EEPROM的数据</param>
+        /// <param name="startAddress">指定写入下位机EEPROM的首地址</param>
+        void EepromWrite(ushort[] writeData, byte startAddress)
+        {
+
+            if (portState)
+            {
+                byte[] senddata = new byte[21];
+
+
+                for (byte k = 0; k < 4; k++)
+                {
+
+                    senddata[0] = (byte)(startAddress + k * 20); //起始地址
+                    int j = 1;
+                    for (int i = 0 + k * 10; i < k * 10 + 10; i++)
+                    {
+                        senddata[j++] = (byte)(writeData[i] % 256);
+                        senddata[j++] = (byte)(writeData[i] / 256);
+                    }
+                    var send = new RTUFrame(downComputeAddress, (byte)FunEnum.WRITE_EEPROM, senddata, (byte)senddata.Length);
+                    serialPort.Write(send.Frame, 0, send.Frame.Length);
+                    Thread.Sleep(100); //延时以等待下位机处理完毕
+                }
+            }
+        }
+        private void LoadFanCurve_Click(object sender, RoutedEventArgs e)
+        {
+            EepromWrite(currentSqureSum, 0); //写入电流数据
+            EepromWrite(timeDaoshu, 80); //写入时间倒数数据
         }
 
     }

@@ -4,7 +4,7 @@
         Title="沈阳工业大学电气工程学院智能电器试验平台" FontFamily="黑体" Height="443.6" Width="1061.4" Loaded="Window_Loaded" Closed="Window_Closed">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="2*"></ColumnDefinition>
+            <ColumnDefinition ></ColumnDefinition>
             <ColumnDefinition Width="3*"></ColumnDefinition>
             <ColumnDefinition Width="2*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
@@ -14,57 +14,105 @@
         </Grid.RowDefinitions>
         <Grid Grid.Column="0" Grid.Row="0" Background="Aquamarine" Margin="3" >
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"></ColumnDefinition>
-                <ColumnDefinition Width="2*"></ColumnDefinition>
+                <ColumnDefinition Width="50"></ColumnDefinition>
+                <ColumnDefinition Width="100"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
-                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
+                <RowDefinition></RowDefinition>
             </Grid.RowDefinitions>
-            <Button Name="openSerialPort" Click="OpenSerialPort_Click" HorizontalAlignment="Center" Grid.ColumnSpan="2" Height="31"  VerticalAlignment="Bottom">打开串口</Button>
-            <Label Margin ="3" Padding="2" Grid.Column="0" Grid.Row="1">串口号:</Label>
-            <ComboBox Name="portName"  Margin ="3" MinWidth="30" Grid.Column="1" Grid.Row="1"></ComboBox>
-            <Label Margin ="3" Padding="2" Grid.Column="0" Grid.Row="2">波特率:</Label>
-            <ComboBox Name="baudRate" Margin ="3" MinWidth="30" Grid.Column="1" Grid.Row="2"></ComboBox>
-            <Label Margin ="3" Padding="2" Grid.Column="0" Grid.Row="3">数据位:</Label>
-            <ComboBox Name="dataBits" Margin ="3" MinWidth="30"  Grid.Column="1" Grid.Row="3"></ComboBox>
-            <Label Margin ="3" Padding="2" Grid.Column="0" Grid.Row="4">校验位:</Label>
-            <ComboBox Name="portParity" Margin ="3" MinWidth="30"  Grid.Column="1" Grid.Row="4"></ComboBox>
-            <Label Margin ="3" Padding="2" Grid.Column="0" Grid.Row="5">停止位:</Label>
-            <ComboBox Name="stopBits" Margin ="3" MinWidth="30" Grid.Column="1" Grid.Row="5"></ComboBox>
+            <Label Margin ="2" Padding="1" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center">串口号:</Label>
+            <ComboBox Name="portName"  Margin ="2" Grid.Column="1" Grid.Row="0"  
+                      MinWidth="30" Height="30" VerticalContentAlignment="Center"></ComboBox>
+            <Label Margin ="2" Padding="1" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center">波特率:</Label>
+            <ComboBox Name="baudRate" Margin ="2" Grid.Column="1" Grid.Row="1"  
+                      MinWidth="30" Height="30" VerticalContentAlignment="Center"></ComboBox>
+            <Label Margin ="2" Padding="1" Grid.Column="0" Grid.Row="2" VerticalAlignment="Center">数据位:</Label>
+            <ComboBox Name="dataBits" Margin ="2"  Grid.Column="1" Grid.Row="2"  
+                      MinWidth="30" Height="30" VerticalContentAlignment="Center"></ComboBox>
+            <Label Margin ="2" Padding="1" Grid.Column="0" Grid.Row="3" VerticalAlignment="Center">校验位:</Label>
+            <ComboBox Name="portParity" Margin ="2"  Grid.Column="1" Grid.Row="3"  
+                      MinWidth="30" Height="30" VerticalContentAlignment="Center"></ComboBox>
+            <Label Margin ="2" Padding="1" Grid.Column="0" Grid.Row="4" VerticalAlignment="Center">停止位:</Label>
+            <ComboBox Name="stopBits" Margin ="2" Grid.Column="1" Grid.Row="4"  
+                      MinWidth="30" Height="30" VerticalContentAlignment="Center"></ComboBox>
+            <Button Name="openSerialPort" Click="OpenSerialPort_Click" HorizontalAlignment="Center" Padding="3"
+                    Grid.ColumnSpan="2"  Grid.Row="5" VerticalAlignment="Center">打开串口</Button>
+            
         </Grid>
 
 
         <TabControl  Grid.Row="0" Grid.Column="1" Margin="3" >
-            <TabItem Header="短路保护">
-                <StackPanel>
-                    <StackPanel Orientation="Horizontal">
-                        <Label Margin="3">整定电流(A)：</Label>
-                        <TextBox MinWidth="50" VerticalContentAlignment="Center">2</TextBox>
-                        <Label Margin="10,3,3,3">整定时间(S)：</Label>
-                        <TextBox MinWidth="50" VerticalContentAlignment="Center">2</TextBox>
-                        <Button Margin="3">应用</Button>
-                    </StackPanel>
+            <TabItem Header="保护设置">
+                <Grid>
+                    <!--<Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50"></ColumnDefinition>
+                    <ColumnDefinition Width="100"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>-->
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="60"></RowDefinition>
+                        <RowDefinition Height="60"></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <GroupBox Header="短路瞬时保护整定" Grid.Row="0" Margin="3">
+                        <StackPanel Orientation="Horizontal" >
+                            <Label Margin="3" VerticalAlignment="Center">整定电流(A)：</Label>
+                            <TextBox MinWidth="50" VerticalContentAlignment="Center">2</TextBox>
+                            <Label Margin="10,3,3,3" VerticalAlignment="Center">整定时间(S)：</Label>
+                            <TextBox MinWidth="50" VerticalContentAlignment="Center">2</TextBox>
+                            <Button Margin="3">应用</Button>
+                        </StackPanel>
+                    </GroupBox>
 
-                </StackPanel>
+                    <GroupBox Header="短路延时保护整定" Grid.Row="1" Margin="3">
+                        <StackPanel Orientation="Horizontal" >
+                            <Label Margin="3" VerticalAlignment="Center">整定电流(A)：</Label>
+                            <TextBox MinWidth="50" VerticalContentAlignment="Center">2</TextBox>
+                            <Label Margin="10,3,3,3" VerticalAlignment="Center">整定时间(S)：</Label>
+                            <TextBox MinWidth="50" VerticalContentAlignment="Center">2</TextBox>
+                            <Button Margin="3">应用</Button>
+                        </StackPanel>
+                    </GroupBox>
+                    <GroupBox Header="反时限过载保护" Grid.Row="2" Margin="3">
+                        <StackPanel Orientation="Horizontal" >
+                            <Label Margin="3" VerticalAlignment="Center">整定电流(A)：</Label>
+                            <TextBox MinWidth="50" VerticalContentAlignment="Center">2</TextBox>
+                            <Label Margin="10,3,3,3" VerticalAlignment="Center">整定时间(S)：</Label>
+                            <TextBox MinWidth="50" VerticalContentAlignment="Center">2</TextBox>
+                            <Button Margin="3">应用</Button>
+                        </StackPanel>
+                    </GroupBox>
+                </Grid>
+
 
             </TabItem>
-            <TabItem Header="过载保护">
-                <StackPanel>
-                    <ListBox Margin="3" Name="reciveListBox"  Background="AntiqueWhite" MinHeight="130">反时限特性数据</ListBox>
-                    <StackPanel Orientation="Horizontal">
+            <TabItem Header="过载保护" Height="21" VerticalAlignment="Top">
+                <Grid>
+                    <!--<Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50"></ColumnDefinition>
+                    <ColumnDefinition Width="100"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>-->
+                    <Grid.RowDefinitions>
+                        <RowDefinition ></RowDefinition>
+                        <RowDefinition Height="30"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <ListBox Margin="3" Name="reciveListBox"  Background="AntiqueWhite" MinHeight="130" Grid.Row="0">反时限特性数据</ListBox>
+                    <StackPanel Orientation="Horizontal" Grid.Row="1">
                         <Label Margin="3">整定电流(A)：</Label>
                         <TextBox MinWidth="50" VerticalContentAlignment="Center">2</TextBox>
                         <Label Margin="10,3,3,3">整定时间(s)：</Label>
                         <TextBox MinWidth="50" VerticalContentAlignment="Center">2</TextBox>
                         <Button Margin="3">应用</Button>
-                        <Button Margin="3">载入反时限特性曲线数据</Button>
+                        <Button Margin="3" Click="LoadFanCurve_Click">载入反时限特性曲线数据</Button>
                     </StackPanel>
-                </StackPanel>
+ 
+                </Grid>
+    
+                    
             </TabItem>
             <TabItem Header="故障显示">
                 <StackPanel>
