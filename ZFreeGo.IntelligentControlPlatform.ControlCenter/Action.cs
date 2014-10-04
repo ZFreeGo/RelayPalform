@@ -290,5 +290,31 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
             EepromWrite(timeDaoshu, 80); //写入时间倒数数据
         }
 
+        /// <summary>
+        /// 投保护压板
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void protectYabanTouru_Click(object sender, RoutedEventArgs e)
+        {
+            if (portState)
+            {
+                var send = new RTUFrame(downComputeAddress, FunEnum.PROTECT_RUN);
+                serialPort.Write(send.Frame, 0, send.Frame.Length);
+            }
+        }
+        /// <summary>
+        /// 退出保护压板
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void protectYabanTuichu_Click(object sender, RoutedEventArgs e)
+        {
+            if (portState)
+            {
+                var send = new RTUFrame(downComputeAddress, FunEnum.PROTECT_STOP);
+                serialPort.Write(send.Frame, 0, send.Frame.Length);
+            }
+        }
     }
 }

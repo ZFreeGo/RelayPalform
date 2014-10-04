@@ -25,9 +25,12 @@ namespace ZFreeGo.IntelligentControlPlatform.Modbus
         LED_ALL_OFF = 0x1F,
 
         WRITE_EEPROM = 0x30,
-        READ_EEPROM = 0x30,
+        READ_EEPROM = 0x31,
 
         Error = 0xAA,
         GetCurrent = 0x51,
+
+        PROTECT_RUN = 0x40,
+        PROTECT_STOP = 0x41
     }
 }

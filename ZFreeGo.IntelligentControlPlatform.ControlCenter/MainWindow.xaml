@@ -10,48 +10,49 @@
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition  Height="3*"></RowDefinition>
-            <RowDefinition Height="2*"></RowDefinition>
+            <RowDefinition Height="2*" />
         </Grid.RowDefinitions>
-        <GroupBox Grid.Column="0" Grid.Row="0" Background="Beige" Margin="3" Width="160">
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="50"></ColumnDefinition>
-                <ColumnDefinition Width="100"></ColumnDefinition>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
-            </Grid.RowDefinitions>
-            <Label Margin ="2" Padding="1" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center">串口号:</Label>
-            <ComboBox Name="portName"  Margin ="2" Grid.Column="1" Grid.Row="0"  
+        <GroupBox Grid.Column="0" Grid.Row="0" Grid.RowSpan="2"  Header="串口设置" Background="Beige" Margin="3" Width="160">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="50"></ColumnDefinition>
+                    <ColumnDefinition Width="100"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="37"></RowDefinition>
+                    <RowDefinition Height="37"></RowDefinition>
+                    <RowDefinition Height="37"></RowDefinition>
+                    <RowDefinition Height="37"></RowDefinition>
+                    <RowDefinition Height="37"></RowDefinition>
+                    <RowDefinition Height="37"></RowDefinition>
+                    <RowDefinition Height="*"></RowDefinition>
+                </Grid.RowDefinitions>
+                <Label Margin ="2" Padding="1" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center">串口号:</Label>
+                <ComboBox Name="portName"  Margin ="2" Grid.Column="1" Grid.Row="0"  
                       MinWidth="30" Height="30" VerticalContentAlignment="Center"></ComboBox>
-            <Label Margin ="2" Padding="1" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center">波特率:</Label>
-            <ComboBox Name="baudRate" Margin ="2" Grid.Column="1" Grid.Row="1"  
+                <Label Margin ="2" Padding="1" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center">波特率:</Label>
+                <ComboBox Name="baudRate" Margin ="2" Grid.Column="1" Grid.Row="1"  
                       MinWidth="30" Height="30" VerticalContentAlignment="Center"></ComboBox>
-            <Label Margin ="2" Padding="1" Grid.Column="0" Grid.Row="2" VerticalAlignment="Center">数据位:</Label>
-            <ComboBox Name="dataBits" Margin ="2"  Grid.Column="1" Grid.Row="2"  
+                <Label Margin ="2" Padding="1" Grid.Column="0" Grid.Row="2" VerticalAlignment="Center">数据位:</Label>
+                <ComboBox Name="dataBits" Margin ="2"  Grid.Column="1" Grid.Row="2"  
                       MinWidth="30" Height="30" VerticalContentAlignment="Center"></ComboBox>
-            <Label Margin ="2" Padding="1" Grid.Column="0" Grid.Row="3" VerticalAlignment="Center">校验位:</Label>
-            <ComboBox Name="portParity" Margin ="2"  Grid.Column="1" Grid.Row="3"  
+                <Label Margin ="2" Padding="1" Grid.Column="0" Grid.Row="3" VerticalAlignment="Center">校验位:</Label>
+                <ComboBox Name="portParity" Margin ="2"  Grid.Column="1" Grid.Row="3"  
                       MinWidth="30" Height="30" VerticalContentAlignment="Center"></ComboBox>
-            <Label Margin ="2" Padding="1" Grid.Column="0" Grid.Row="4" VerticalAlignment="Center">停止位:</Label>
-            <ComboBox Name="stopBits" Margin ="2" Grid.Column="1" Grid.Row="4"  
+                <Label Margin ="2" Padding="1" Grid.Column="0" Grid.Row="4" VerticalAlignment="Center">停止位:</Label>
+                <ComboBox Name="stopBits" Margin ="2" Grid.Column="1" Grid.Row="4"  
                       MinWidth="30" Height="30" VerticalContentAlignment="Center"></ComboBox>
-            <Button Name="openSerialPort" Click="OpenSerialPort_Click" HorizontalAlignment="Center" Padding="3"
+                <Button Name="openSerialPort" Click="OpenSerialPort_Click" HorizontalAlignment="Center" Padding="3"
                     Grid.ColumnSpan="2"  Grid.Row="5" VerticalAlignment="Center">打开串口</Button>
-
-        </Grid>
+                <GroupBox Header="模拟量显示" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="6" Margin="3,0,3,3" Background="Bisque">
+                    <StackPanel>
+                        <Button Margin="3">更新</Button>
+                        <TextBlock>电位器:</TextBlock>
+                    </StackPanel>
+                </GroupBox>
+            </Grid>
         </GroupBox>
-        <GroupBox Header="模拟量显示" Grid.Column="0" Grid.Row="1" Margin="3" Background="Bisque">
-            <StackPanel>
-                <Button>更新</Button>
-                <TextBlock>电位器:</TextBlock>
-            </StackPanel>
-        </GroupBox>
+      
         <TabControl  Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Margin="3" >
             <TabItem Header="保护设置">
                 <Grid>
@@ -63,6 +64,7 @@
                         <RowDefinition Height="60"></RowDefinition>
                         <RowDefinition Height="60"></RowDefinition>
                         <RowDefinition></RowDefinition>
+                        <RowDefinition Height="30"></RowDefinition>
                     </Grid.RowDefinitions>
                     <GroupBox Header="短路瞬时保护整定" Grid.Row="0" Margin="3">
                         <StackPanel Orientation="Horizontal" >
@@ -90,6 +92,13 @@
                             <Button Margin="3" Click="LoadFanCurve_Click">载入反时限特性曲线数据</Button>
                         </StackPanel>
                     </GroupBox>
+
+                    <StackPanel Grid.Row="3" Orientation="Horizontal" Background="AliceBlue">
+                        <Button Margin="3,3,20,3" >更新整定数据</Button>
+                        <Button Margin="3" Click="protectYabanTouru_Click">投入保护</Button>
+                        <Button Margin="3"  Click="protectYabanTuichu_Click">退出保护</Button>
+
+                    </StackPanel>
                 </Grid>
 
 
@@ -110,7 +119,7 @@
                         <TextBox MinWidth="50" VerticalContentAlignment="Center">2</TextBox>
                         <Label Margin="10,3,3,3">整定时间(s)：</Label>
                         <TextBox MinWidth="50" VerticalContentAlignment="Center">2</TextBox>
-                        
+
                     </StackPanel>
 
                 </Grid>
@@ -165,9 +174,9 @@
                     <GroupBox Header="发送数据(hex)" Grid.Row="1" Margin="3" Background="AliceBlue">
 
                         <TextBox  Name="sendTxtBox"   TextWrapping="Wrap" >
-                            <TextBox.ContextMenu>
+                            <!--<TextBox.ContextMenu>
                                 <ContextMenu Name="ClearSendDataShow">清空发送数据</ContextMenu>
-                            </TextBox.ContextMenu>
+                            </TextBox.ContextMenu>-->
                         </TextBox>
 
                     </GroupBox>
@@ -195,9 +204,9 @@
 
                     <GroupBox Header="发送数据(hex)" Grid.Row="3" Margin="3" Background="AntiqueWhite" >
                         <TextBox  Name="reciveTxtBox" TextWrapping="Wrap" >
-                            <TextBox.ContextMenu>
+                            <!--<TextBox.ContextMenu>
                                 <ContextMenu Name="ClearReciveDataShow">清空接收数据</ContextMenu>
-                            </TextBox.ContextMenu>
+                            </TextBox.ContextMenu>-->
                         </TextBox>
                     </GroupBox>
                 </Grid>
@@ -258,7 +267,7 @@
                     </StackPanel>
                     <StackPanel Orientation="Horizontal">
                         <Label Margin="3,3,5,3">显示内容：</Label>
-                        <TextBox MinWidth="30" VerticalContentAlignment="Center" Margin="1">智能电气试验装置</TextBox>
+                        <TextBox MinWidth="30" VerticalContentAlignment="Center" Margin="3">智能电气试验装置</TextBox>
                     </StackPanel>
                     <Button Margin="3">发送</Button>
                 </StackPanel>
