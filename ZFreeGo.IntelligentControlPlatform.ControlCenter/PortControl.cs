@@ -181,7 +181,7 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
                         SerialDataReceivedEventArgs e)
         {
 
-            Action<object> call = ar => { reciveListBox.Items.Add(ar); reciveListBox.ScrollIntoView(ar); };
+            Action<object> call = ar => {reciveTxtBox.Text += string.Format("{0:x} ", ar); };
 
             //Dispatcher.BeginInvoke(call, "start");
 
@@ -191,9 +191,10 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
            // Console.Write(indata);
             Dispatcher.BeginInvoke(call, indata);
         }
+
         private void Read()
         {
-            Action<object> call = ar => { reciveListBox.Items.Add(ar); reciveListBox.ScrollIntoView(ar); };
+            Action<object> call = ar => { reciveTxtBox.Text += string.Format("{0:x} ", ar); };
             Func<byte> reciveByte = () =>
             {
                 
