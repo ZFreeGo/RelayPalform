@@ -13,6 +13,19 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
     {
         private const  byte downComputeAddress = 0xEA;
         private RTUFrame sendFrame;
+
+        /// <summary>
+        /// 显示发送字节信息。
+        /// </summary>
+        /// <param name="send">字节数组</param>
+        void ShowSendMessage(byte[] send)
+        {
+            foreach (var data in send)
+            {
+                sendTxtBox.Text += string.Format("{0:X2} ", data);
+            }
+            
+        }
         private void sendTest_Click(object sender, RoutedEventArgs e)
         {
             try
@@ -35,6 +48,7 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
                 sendFrame = new RTUFrame(Convert.ToByte(deviceAddrTxt.Text,16), Convert.ToByte(funCodeTxt.Text, 16),
                                          data, len);
                 serialPort.Write(sendFrame.Frame, 0, sendFrame.Frame.Length);
+                ShowSendMessage(sendFrame.Frame);
             }
             catch (Exception ex)
             {
@@ -44,6 +58,8 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
         }
         private void Led1_Click(object sender, RoutedEventArgs e)
         {
+            try
+            {
             if (e.OriginalSource is RadioButton)
             {
                 var radio = e.OriginalSource as RadioButton;
@@ -78,13 +94,21 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
                     {
                         var send = new RTUFrame(downComputeAddress, fun);
                         serialPort.Write(send.Frame, 0, send.Frame.Length);
+                        ShowSendMessage(sendFrame.Frame);
                     }
                 }
+            }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("LED1:" + ex.Message);
             }
         }
 
         private void Led2_Click(object sender, RoutedEventArgs e)
         {
+            try
+            {
             if (e.OriginalSource is RadioButton)
             {
                 var radio = e.OriginalSource as RadioButton;
@@ -119,13 +143,21 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
                     {
                         var send = new RTUFrame(downComputeAddress, fun);
                         serialPort.Write(send.Frame, 0, send.Frame.Length);
+                        ShowSendMessage(sendFrame.Frame);
                     }
                 }
+            }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("LED2:" + ex.Message);
             }
         }
 
         private void Led3_Click(object sender, RoutedEventArgs e)
         {
+            try
+            {
             if (e.OriginalSource is RadioButton)
             {
                 var radio = e.OriginalSource as RadioButton;
@@ -160,12 +192,20 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
                     {
                         var send = new RTUFrame(downComputeAddress, fun);
                         serialPort.Write(send.Frame, 0, send.Frame.Length);
+                        ShowSendMessage(sendFrame.Frame);
                     }
                 }
+            }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("LED3:" + ex.Message);
             }
         }
         private void Led4_Click(object sender, RoutedEventArgs e)
         {
+            try
+            {
             if (e.OriginalSource is RadioButton)
             {
                 var radio = e.OriginalSource as RadioButton;
@@ -200,12 +240,21 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
                     {
                         var send = new RTUFrame(downComputeAddress, fun);
                         serialPort.Write(send.Frame, 0, send.Frame.Length);
+                        ShowSendMessage(sendFrame.Frame);
                     }
                 }
+            }
+            
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("LED4:" + ex.Message);
             }
         }
         private void LedAll_Click(object sender, RoutedEventArgs e)
         {
+            try
+            {
             if (e.OriginalSource is RadioButton)
             {
                 var radio = e.OriginalSource as RadioButton;
@@ -235,9 +284,16 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
                     {
                         var send = new RTUFrame(downComputeAddress, fun);
                         serialPort.Write(send.Frame, 0, send.Frame.Length);
+                        ShowSendMessage(sendFrame.Frame);
                     }
                 }
             }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("LEDALL:" + ex.Message);
+            }
+            
         }
 
         //折算到ADC值后的电流平方和
@@ -260,19 +316,20 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
         /// </summary>
         /// <param name="writeData">将要写入下位机EEPROM的数据</param>
         /// <param name="startAddress">指定写入下位机EEPROM的首地址</param>
-        void EepromWrite(ushort[] writeData, byte startAddress)
+        void EepromWrite(ushort[] writeData, ushort startAddress)
         {
 
             if (portState)
             {
-                byte[] senddata = new byte[21];
+                byte[] senddata = new byte[22];
 
 
                 for (byte k = 0; k < 4; k++)
                 {
 
-                    senddata[0] = (byte)(startAddress + k * 20); //起始地址
-                    int j = 1;
+                    senddata[0] = (byte)((startAddress + k * 20) % 256); //起始地址
+                    senddata[1] = (byte)((startAddress + k * 20) / 256); //起始地址
+                    int j = 2;
                     for (int i = 0 + k * 10; i < k * 10 + 10; i++)
                     {
                         senddata[j++] = (byte)(writeData[i] % 256);
@@ -280,14 +337,114 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
                     }
                     var send = new RTUFrame(downComputeAddress, (byte)FunEnum.WRITE_EEPROM, senddata, (byte)senddata.Length);
                     serialPort.Write(send.Frame, 0, send.Frame.Length);
+                    ShowSendMessage(sendFrame.Frame);
                     Thread.Sleep(100); //延时以等待下位机处理完毕
                 }
+            }
+            else
+            {
+                throw new Exception("串口未设置。");
+            }
+        }
+        void EepromWrite(byte[] writeData, ushort startAddress, ushort len)
+        {
+
+            if (portState)
+            {
+                byte[] senddata = new byte[len + 2];
+
+
+                senddata[0] = (byte)((startAddress) % 256); //起始地址 低8位
+                senddata[1] = (byte)((startAddress) /256);  //起始地址  高8位
+                
+                int j = 2;
+                for (int i = 0; i < len; i++)
+                {
+                    senddata[j++] = writeData[i];
+                }
+                
+                var send = new RTUFrame(downComputeAddress, (byte)FunEnum.WRITE_EEPROM, senddata, (byte)senddata.Length);
+                serialPort.Write(send.Frame, 0, send.Frame.Length);
+                ShowSendMessage(send.Frame);
+                //Thread.Sleep(100); //延时以等待下位机处理完毕
+                
+            }
+            else
+            {
+                throw new Exception("串口未设置。");
+            }
+        }
+        private byte[] SetProtectValueByTxt(TextBox currentTxt, TextBox timeBox)
+        {
+            var value = double.Parse(currentTxt.Text);
+            var checkvalue = Tool.CheckBound(value, 1, 10);
+            currentTxt.Text = checkvalue.ToString();
+            uint mcuCurrent = Tool.CalMcuCurrentByReal(checkvalue);
+
+            value = double.Parse(timeBox.Text);
+            checkvalue = Tool.CheckBound(value, 0.001, 1000);
+            timeBox.Text = checkvalue.ToString();
+            uint mcuTime = Tool.CalMcuTimeByReal(checkvalue);
+
+            byte[] currByte = Tool.Uint32ToByte(mcuCurrent);
+            byte[] timeByte = Tool.Uint32ToByte(mcuTime);
+
+            byte[] sendata = new byte[8];
+            for (byte i = 0; i < 4; i++)
+            {
+                sendata[i] = currByte[i];
+                sendata[i + 4] = timeByte[i];
+            }
+            return sendata;
+           
+        }
+        /// <summary>
+        /// 设置短路速断保护
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ApplySuduanProtect_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+               var senddata = SetProtectValueByTxt(suduanPotectCurrentTxt, suduanPotectTimeTxt);
+               EepromWrite(senddata, 0x200, 8);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("短路速断保护:" + ex.Message);
+            }
+
+        }
+        /// <summary>
+        /// 设置短路延时保护
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ApplyYanshiProtect_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var senddata = SetProtectValueByTxt(yanshiPotectCurrentTxt, yanshiPotectTimeTxt);
+                EepromWrite(senddata, 0x208, 8);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("短路延时保护:" + ex.Message);
             }
         }
         private void LoadFanCurve_Click(object sender, RoutedEventArgs e)
         {
-            EepromWrite(currentSqureSum, 0); //写入电流数据
-            EepromWrite(timeDaoshu, 80); //写入时间倒数数据
+            try
+            {
+                EepromWrite(currentSqureSum, 0); //写入电流数据
+                EepromWrite(timeDaoshu, 80); //写入时间倒数数据
+            }            
+            catch (Exception ex)
+            {
+                MessageBox.Show("发送命令:" + ex.Message);
+
+            }
         }
 
         /// <summary>
@@ -297,10 +454,19 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
         /// <param name="e"></param>
         private void protectYabanTouru_Click(object sender, RoutedEventArgs e)
         {
-            if (portState)
+            try
             {
-                var send = new RTUFrame(downComputeAddress, FunEnum.PROTECT_RUN);
-                serialPort.Write(send.Frame, 0, send.Frame.Length);
+                if (portState)
+                {
+                    var send = new RTUFrame(downComputeAddress, FunEnum.PROTECT_RUN);
+                    serialPort.Write(send.Frame, 0, send.Frame.Length);
+                    ShowSendMessage(sendFrame.Frame);
+                }
+            }
+            
+            catch (Exception ex)
+            {
+                MessageBox.Show("发送命令:" + ex.Message);
             }
         }
         /// <summary>
@@ -310,10 +476,19 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
         /// <param name="e"></param>
         private void protectYabanTuichu_Click(object sender, RoutedEventArgs e)
         {
-            if (portState)
+            try
             {
-                var send = new RTUFrame(downComputeAddress, FunEnum.PROTECT_STOP);
-                serialPort.Write(send.Frame, 0, send.Frame.Length);
+                if (portState)
+                {
+                    var send = new RTUFrame(downComputeAddress, FunEnum.PROTECT_STOP);
+                    serialPort.Write(send.Frame, 0, send.Frame.Length);
+                    ShowSendMessage(sendFrame.Frame);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("发送命令:" + ex.Message);
+
             }
         }
     }

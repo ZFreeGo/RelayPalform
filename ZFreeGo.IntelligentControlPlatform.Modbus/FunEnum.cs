@@ -31,6 +31,10 @@ namespace ZFreeGo.IntelligentControlPlatform.Modbus
         GetCurrent = 0x51,
 
         PROTECT_RUN = 0x40,
-        PROTECT_STOP = 0x41
+        PROTECT_STOP = 0x41,
+
+        
+        SET_SUDUAN_PROTECT = 0x42,
+        SET_YANSHI_PROTECT = 0x43,
     }
 }

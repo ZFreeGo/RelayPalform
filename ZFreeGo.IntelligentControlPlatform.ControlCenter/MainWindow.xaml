@@ -66,23 +66,23 @@
                         <RowDefinition></RowDefinition>
                         <RowDefinition Height="30"></RowDefinition>
                     </Grid.RowDefinitions>
-                    <GroupBox Header="短路瞬时保护整定" Grid.Row="0" Margin="3">
+                    <GroupBox Header="短路速断保护整定" Grid.Row="0" Margin="3">
                         <StackPanel Orientation="Horizontal" >
                             <Label Margin="3" VerticalAlignment="Center">整定电流(A)：</Label>
-                            <TextBox MinWidth="50" VerticalContentAlignment="Center">2</TextBox>
+                            <TextBox MinWidth="50" VerticalContentAlignment="Center" Name="suduanPotectCurrentTxt">5</TextBox>
                             <Label Margin="10,3,3,3" VerticalAlignment="Center">整定时间(S)：</Label>
-                            <TextBox MinWidth="50" VerticalContentAlignment="Center">2</TextBox>
-                            <Button Margin="3">应用</Button>
+                            <TextBox MinWidth="50" VerticalContentAlignment="Center" Name="suduanPotectTimeTxt">0.02</TextBox>
+                            <Button Margin="3" Click="ApplySuduanProtect_Click">应用</Button>
                         </StackPanel>
                     </GroupBox>
 
                     <GroupBox Header="短路延时保护整定" Grid.Row="1" Margin="3">
                         <StackPanel Orientation="Horizontal" >
-                            <Label Margin="3" VerticalAlignment="Center">整定电流(A)：</Label>
-                            <TextBox MinWidth="50" VerticalContentAlignment="Center">2</TextBox>
-                            <Label Margin="10,3,3,3" VerticalAlignment="Center">整定时间(S)：</Label>
-                            <TextBox MinWidth="50" VerticalContentAlignment="Center">2</TextBox>
-                            <Button Margin="3">应用</Button>
+                            <Label Margin="3" VerticalAlignment="Center" >整定电流(A)：</Label>
+                            <TextBox MinWidth="50" VerticalContentAlignment="Center"  Name="yanshiPotectCurrentTxt">3</TextBox>
+                            <Label Margin="10,3,3,3" VerticalAlignment="Center" >整定时间(S)：</Label>
+                            <TextBox MinWidth="50" VerticalContentAlignment="Center" Name="yanshiPotectTimeTxt">0.5</TextBox>
+                            <Button Margin="3" Click="ApplyYanshiProtect_Click">应用</Button>
                         </StackPanel>
                     </GroupBox>
                     <GroupBox Header="反时限过载保护" Grid.Row="2" Margin="3">
@@ -158,16 +158,16 @@
                             <WrapPanel  Grid.Row="0">
 
                                 <Label>地址(Hex)：</Label>
-                                <TextBox Name="deviceAddrTxt" Width="30" Margin="3" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" PreviewKeyDown="singleHexCheck_PreviewKeyDown" TextChanged="singleHexUpperLenCheck_TextChanged">22</TextBox>
+                                <TextBox Name="deviceAddrTxt" Width="30" Margin="3" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" PreviewKeyDown="singleHexCheck_PreviewKeyDown" TextChanged="singleHexUpperLenCheck_TextChanged">EA</TextBox>
                                 <Label >功能：</Label>
-                                <TextBox Name="funCodeTxt" Width="30" Margin="3" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" PreviewKeyDown="singleHexCheck_PreviewKeyDown" TextChanged="singleHexUpperLenCheck_TextChanged">101</TextBox>
+                                <TextBox Name="funCodeTxt" Width="30" Margin="3" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" PreviewKeyDown="singleHexCheck_PreviewKeyDown" TextChanged="singleHexUpperLenCheck_TextChanged">31</TextBox>
                                 <Label >数据长度：</Label>
-                                <TextBox Name="dataLenTxt" Width="30" Margin="3" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" PreviewKeyDown="singleHexCheck_PreviewKeyDown" TextChanged="singleHexUpperLenCheck_TextChanged">2</TextBox>
+                                <TextBox Name="dataLenTxt" Width="30" Margin="3" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" PreviewKeyDown="singleHexCheck_PreviewKeyDown" TextChanged="singleHexUpperLenCheck_TextChanged">3</TextBox>
                                 <Button Name="sendTest" Margin="20,3,3,3" Click="sendTest_Click" Grid.Column="1" >发送</Button>
                             </WrapPanel>
                             <DockPanel Grid.Row="1">
                                 <Label>数据：</Label>
-                                <TextBox Name="dataTxt" Margin="3"  VerticalContentAlignment="Center" PreviewKeyDown="multiHexCheck_PreviewKeyDown" LostFocus="dataTxt_LostFocus">11</TextBox>
+                                <TextBox Name="dataTxt" Margin="3"  VerticalContentAlignment="Center" PreviewKeyDown="multiHexCheck_PreviewKeyDown" LostFocus="dataTxt_LostFocus">F0 0 10</TextBox>
                             </DockPanel>
                         </Grid>
                     </GroupBox>
@@ -202,7 +202,7 @@
                         </Grid>
                     </GroupBox>
 
-                    <GroupBox Header="发送数据(hex)" Grid.Row="3" Margin="3" Background="AntiqueWhite" >
+                    <GroupBox Header="接收数据(hex)" Grid.Row="3" Margin="3" Background="AntiqueWhite" >
                         <TextBox  Name="reciveTxtBox" TextWrapping="Wrap" >
                             <!--<TextBox.ContextMenu>
                                 <ContextMenu Name="ClearReciveDataShow">清空接收数据</ContextMenu>

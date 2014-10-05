@@ -47,7 +47,7 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
         }
         void HexShow()
         {
-            deviceAddrTxt.Text = String.Format("{0:x}", 0xea);
+            deviceAddrTxt.Text = String.Format("{0:X2}", 0xea);
         }
         public  void  UpdatePortName(string defaultPortName)
         {
@@ -181,7 +181,7 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
                         SerialDataReceivedEventArgs e)
         {
 
-            Action<object> call = ar => {reciveTxtBox.Text += string.Format("{0:x} ", ar); };
+            Action<object> call = ar => {reciveTxtBox.Text += string.Format("{0:X2} ", ar); };
 
             //Dispatcher.BeginInvoke(call, "start");
 
@@ -194,23 +194,25 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
 
         private void Read()
         {
-            Action<object> call = ar => { reciveTxtBox.Text += string.Format("{0:x} ", ar); };
+            Action<object> call = ar => { reciveTxtBox.Text += string.Format("{0:X2} ", ar); };
             Func<byte> reciveByte = () =>
             {
                 
-                return (byte)serialPort.ReadByte();
+                byte ch = (byte)serialPort.ReadByte();
+                Dispatcher.BeginInvoke(call, ch);//实时显示
+                return ch;
             };
 
             Action<RTUFrame> callShowRecivFrame = ar =>
                 {
-                    deviceAddrReciveTxt.Text = String.Format("{0:X}, ", ar.Address);
-                    funCodeReciveTxt.Text = String.Format("{0:X}", ar.Function);
-                    dataLenReciveTxt.Text = String.Format("{0:X}",ar.DataLen);
+                    deviceAddrReciveTxt.Text = String.Format("{0:X2}, ", ar.Address);
+                    funCodeReciveTxt.Text = String.Format("{0:X2}", ar.Function);
+                    dataLenReciveTxt.Text = String.Format("{0:X2}",ar.DataLen);
                    
                     dataReciveTxt.Text = "";
                     foreach (var data in ar.FrameData)
                     {
-                        dataReciveTxt.Text += String.Format("{0:X} ", data);
+                        dataReciveTxt.Text += String.Format("{0:X2} ", data);
                     }
 
       
@@ -228,11 +230,11 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
 
                         if (reciveTool.JudgeGetByte(sendFrame))
                         {
-                            Dispatcher.BeginInvoke(call, "接收帧");
-                            foreach (var cha in reciveTool.ReciveFrame.Frame)
-                            {
-                                Dispatcher.BeginInvoke(call, cha);
-                            }
+                            //Dispatcher.BeginInvoke(call, "接收帧");
+                            //foreach (var cha in reciveTool.ReciveFrame.Frame)
+                            //{
+                            //    Dispatcher.BeginInvoke(call, cha);
+                            //}
                             Dispatcher.BeginInvoke(callShowRecivFrame, reciveTool.ReciveFrame);
                             
                         }
