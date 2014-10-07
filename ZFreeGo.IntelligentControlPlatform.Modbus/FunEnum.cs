@@ -24,8 +24,13 @@ namespace ZFreeGo.IntelligentControlPlatform.Modbus
         LED_ALL_ON = 0x1D,
         LED_ALL_OFF = 0x1F,
 
+        LCD_SHOW = 0x21,
+
         WRITE_EEPROM = 0x30,
         READ_EEPROM = 0x31,
+
+        SET_SUDUAN_PROTECT = 0x42,
+        SET_YANSHI_PROTECT = 0x43,
 
         Error = 0xAA,
         GetCurrent = 0x51,
@@ -34,7 +39,6 @@ namespace ZFreeGo.IntelligentControlPlatform.Modbus
         PROTECT_STOP = 0x41,
 
         
-        SET_SUDUAN_PROTECT = 0x42,
-        SET_YANSHI_PROTECT = 0x43,
+        
     }
 }

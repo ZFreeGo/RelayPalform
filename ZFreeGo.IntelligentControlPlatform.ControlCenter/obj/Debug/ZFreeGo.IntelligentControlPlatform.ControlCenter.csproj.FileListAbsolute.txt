@@ -52,3 +52,4 @@ H:\MyCode\Dotnet\IntelligentRelayControlPlatform\ZFreeGo.IntelligentControlPlatf
 H:\MyCode\Dotnet\IntelligentRelayControlPlatform\ZFreeGo.IntelligentControlPlatform.ControlCenter\obj\Debug\ZFreeGo.IntelligentControlPlatform.ControlCenter.g.resources
 H:\MyCode\Dotnet\IntelligentRelayControlPlatform\ZFreeGo.IntelligentControlPlatform.ControlCenter\obj\Debug\ZFreeGo.IntelligentControlPlatform.ControlCenter.Properties.Resources.resources
 H:\MyCode\Dotnet\IntelligentRelayControlPlatform\ZFreeGo.IntelligentControlPlatform.ControlCenter\obj\Debug\ZFreeGo.IntelligentControlPlatform.ControlCenter.csproj.GenerateResource.Cache
+H:\MyCode\Dotnet\IntelligentRelayControlPlatform\ZFreeGo.IntelligentControlPlatform.ControlCenter\bin\Debug\DynamicDataDisplay.dll

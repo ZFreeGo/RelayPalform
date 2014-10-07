@@ -1,4 +1,5 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -230,6 +231,64 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
                  txtbox.Text = txtbox.Text.ToUpper();
             }
         }
+
+        private void yulanProtectCurve_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                string strCurrent = currentTxt.Text;
+                char[] charSeparators = new char[] { ' ' };
+                var resultCurrentStr = strCurrent.Split(charSeparators, StringSplitOptions.RemoveEmptyEntries);
+                string strTime = timeTxt.Text;
+                var resultTimeStr = strTime.Split(charSeparators, StringSplitOptions.RemoveEmptyEntries);
+
+                int len = resultCurrentStr.Length;
+
+                if (resultCurrentStr.Length == 0)
+                {
+                    throw new Exception("电流区域为空！");
+                }
+                if (resultTimeStr.Length == 0)
+                {
+                    throw new Exception("时间区域为空！");
+                }
+                if (resultCurrentStr.Length != resultTimeStr.Length)
+                {
+                    throw new Exception("电流与电压长度不匹配");
+                }
+                if (resultCurrentStr.Length > maxPoint)
+                {
+                    throw new Exception(string.Format("输入点数过多，应小于{0}", maxPoint));
+                }
+
+                var resultCurrentNum = new double[len];
+                var resultTimeNum = new double[len];
+                    
+                for (int i = 0; i < len; i++)
+                {
+                    resultCurrentNum[i] =  Convert.ToDouble(resultCurrentStr[i]);
+                    resultTimeNum[i] = Convert.ToDouble(resultTimeStr[i]);
+                }
+
+                var pdata = PlotTrisCurveData(resultCurrentNum, resultTimeNum);
+                plotShowCurve(pdata);
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "预览曲线");
+            }
+
+            
+            
+
+
+        }
+
+        
+
+        
+        
 
       
 

@@ -66,5 +66,7 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
             double t = 1/ time  * 1e5 * 3; // %需要4 bytes
             return (uint)t;
         }
+
+       
     }
 }

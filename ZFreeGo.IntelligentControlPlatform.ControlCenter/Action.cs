@@ -11,7 +11,11 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
 {
     public partial class MainWindow
     {
-        private const  byte downComputeAddress = 0xEA;
+        private const byte downComputeAddress = 0xEA;  //下位机地址
+        private const ushort protectSuduanEepromAddrrss = 0x200; //下位机速断数据EEPROM地址
+        private const ushort protectYanshiEepromAddrrss = 0x208; //下位机延时数据EEPROM地址
+        private const byte maxPoint = 50;
+
         private RTUFrame sendFrame;
 
         /// <summary>
@@ -24,28 +28,28 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
             {
                 sendTxtBox.Text += string.Format("{0:X2} ", data);
             }
-            
+
         }
         private void sendTest_Click(object sender, RoutedEventArgs e)
         {
             try
             {
 
-                byte len = Convert.ToByte(dataLenTxt.Text, 16); 
+                byte len = Convert.ToByte(dataLenTxt.Text, 16);
                 var data = new byte[len];
                 var hexStr = GetDecimalByHexString(dataTxt.Text);
 
                 if (hexStr != null)
                 {
                     int min = Math.Min(hexStr.Count, len);
-                    for (int i = 0 ; i < min; i++)
+                    for (int i = 0; i < min; i++)
                     {
                         data[i] = Convert.ToByte(hexStr[i], 16);
                     }
                 }
 
 
-                sendFrame = new RTUFrame(Convert.ToByte(deviceAddrTxt.Text,16), Convert.ToByte(funCodeTxt.Text, 16),
+                sendFrame = new RTUFrame(Convert.ToByte(deviceAddrTxt.Text, 16), Convert.ToByte(funCodeTxt.Text, 16),
                                          data, len);
                 serialPort.Write(sendFrame.Frame, 0, sendFrame.Frame.Length);
                 ShowSendMessage(sendFrame.Frame);
@@ -60,44 +64,44 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
         {
             try
             {
-            if (e.OriginalSource is RadioButton)
-            {
-                var radio = e.OriginalSource as RadioButton;
-                FunEnum fun = FunEnum.None;
-                switch (radio.Name)
+                if (e.OriginalSource is RadioButton)
                 {
-                    case "Led1On":
-                        {
-                            fun = FunEnum.LED1_ON;
-                            break;
-                        }
-                    case "Led1Off":
-                        {
-                            fun = FunEnum.LED1_OFF;
-                            break;
-                        }
-                    case "Led1Toggle":
-                        {
-                            fun = FunEnum.LED1_TOGLE;
-                            break;
-                        }
-                    default:
-                        {
-                            fun = FunEnum.None;
-                            break;
-                        }
-                }
-                if (fun != FunEnum.None)
-                {
-                    //添加发送命令指令
-                    if (portState)
+                    var radio = e.OriginalSource as RadioButton;
+                    FunEnum fun = FunEnum.None;
+                    switch (radio.Name)
                     {
-                        var send = new RTUFrame(downComputeAddress, fun);
-                        serialPort.Write(send.Frame, 0, send.Frame.Length);
-                        ShowSendMessage(sendFrame.Frame);
+                        case "Led1On":
+                            {
+                                fun = FunEnum.LED1_ON;
+                                break;
+                            }
+                        case "Led1Off":
+                            {
+                                fun = FunEnum.LED1_OFF;
+                                break;
+                            }
+                        case "Led1Toggle":
+                            {
+                                fun = FunEnum.LED1_TOGLE;
+                                break;
+                            }
+                        default:
+                            {
+                                fun = FunEnum.None;
+                                break;
+                            }
+                    }
+                    if (fun != FunEnum.None)
+                    {
+                        //添加发送命令指令
+                        if (portState)
+                        {
+                            var send = new RTUFrame(downComputeAddress, fun);
+                            serialPort.Write(send.Frame, 0, send.Frame.Length);
+                            ShowSendMessage(send.Frame);
+                        }
                     }
                 }
-            }
             }
             catch (Exception ex)
             {
@@ -109,44 +113,44 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
         {
             try
             {
-            if (e.OriginalSource is RadioButton)
-            {
-                var radio = e.OriginalSource as RadioButton;
-                FunEnum fun = FunEnum.None;
-                switch (radio.Name)
+                if (e.OriginalSource is RadioButton)
                 {
-                    case "Led2On":
-                        {
-                            fun = FunEnum.LED2_ON;
-                            break;
-                        }
-                    case "Led2Off":
-                        {
-                            fun = FunEnum.LED2_OFF;
-                            break;
-                        }
-                    case "Led2Toggle":
-                        {
-                            fun = FunEnum.LED2_TOGLE;
-                            break;
-                        }
-                    default:
-                        {
-                            fun = FunEnum.None;
-                            break;
-                        }
-                }
-                if (fun != FunEnum.None)
-                {
-                    //添加发送命令指令
-                    if (portState)
+                    var radio = e.OriginalSource as RadioButton;
+                    FunEnum fun = FunEnum.None;
+                    switch (radio.Name)
                     {
-                        var send = new RTUFrame(downComputeAddress, fun);
-                        serialPort.Write(send.Frame, 0, send.Frame.Length);
-                        ShowSendMessage(sendFrame.Frame);
+                        case "Led2On":
+                            {
+                                fun = FunEnum.LED2_ON;
+                                break;
+                            }
+                        case "Led2Off":
+                            {
+                                fun = FunEnum.LED2_OFF;
+                                break;
+                            }
+                        case "Led2Toggle":
+                            {
+                                fun = FunEnum.LED2_TOGLE;
+                                break;
+                            }
+                        default:
+                            {
+                                fun = FunEnum.None;
+                                break;
+                            }
+                    }
+                    if (fun != FunEnum.None)
+                    {
+                        //添加发送命令指令
+                        if (portState)
+                        {
+                            var send = new RTUFrame(downComputeAddress, fun);
+                            serialPort.Write(send.Frame, 0, send.Frame.Length);
+                            ShowSendMessage(send.Frame);
+                        }
                     }
                 }
-            }
             }
             catch (Exception ex)
             {
@@ -158,44 +162,44 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
         {
             try
             {
-            if (e.OriginalSource is RadioButton)
-            {
-                var radio = e.OriginalSource as RadioButton;
-                FunEnum fun = FunEnum.None;
-                switch (radio.Name)
+                if (e.OriginalSource is RadioButton)
                 {
-                    case "Led3On":
-                        {
-                            fun = FunEnum.LED3_ON;
-                            break;
-                        }
-                    case "Led3Off":
-                        {
-                            fun = FunEnum.LED3_OFF;
-                            break;
-                        }
-                    case "Led3Toggle":
-                        {
-                            fun = FunEnum.LED3_TOGLE;
-                            break;
-                        }
-                    default:
-                        {
-                            fun = FunEnum.None;
-                            break;
-                        }
-                }
-                if (fun != FunEnum.None)
-                {
-                    //添加发送命令指令
-                    if (portState)
+                    var radio = e.OriginalSource as RadioButton;
+                    FunEnum fun = FunEnum.None;
+                    switch (radio.Name)
                     {
-                        var send = new RTUFrame(downComputeAddress, fun);
-                        serialPort.Write(send.Frame, 0, send.Frame.Length);
-                        ShowSendMessage(sendFrame.Frame);
+                        case "Led3On":
+                            {
+                                fun = FunEnum.LED3_ON;
+                                break;
+                            }
+                        case "Led3Off":
+                            {
+                                fun = FunEnum.LED3_OFF;
+                                break;
+                            }
+                        case "Led3Toggle":
+                            {
+                                fun = FunEnum.LED3_TOGLE;
+                                break;
+                            }
+                        default:
+                            {
+                                fun = FunEnum.None;
+                                break;
+                            }
+                    }
+                    if (fun != FunEnum.None)
+                    {
+                        //添加发送命令指令
+                        if (portState)
+                        {
+                            var send = new RTUFrame(downComputeAddress, fun);
+                            serialPort.Write(send.Frame, 0, send.Frame.Length);
+                            ShowSendMessage(send.Frame);
+                        }
                     }
                 }
-            }
             }
             catch (Exception ex)
             {
@@ -206,45 +210,45 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
         {
             try
             {
-            if (e.OriginalSource is RadioButton)
-            {
-                var radio = e.OriginalSource as RadioButton;
-                FunEnum fun = FunEnum.None;
-                switch (radio.Name)
+                if (e.OriginalSource is RadioButton)
                 {
-                    case "Led4On":
-                        {
-                            fun = FunEnum.LED4_ON;
-                            break;
-                        }
-                    case "Led4Off":
-                        {
-                            fun = FunEnum.LED4_OFF;
-                            break;
-                        }
-                    case "Led4Toggle":
-                        {
-                            fun = FunEnum.LED4_TOGLE;
-                            break;
-                        }
-                    default:
-                        {
-                            fun = FunEnum.None;
-                            break;
-                        }
-                }
-                if (fun != FunEnum.None)
-                {
-                    //添加发送命令指令
-                    if (portState)
+                    var radio = e.OriginalSource as RadioButton;
+                    FunEnum fun = FunEnum.None;
+                    switch (radio.Name)
                     {
-                        var send = new RTUFrame(downComputeAddress, fun);
-                        serialPort.Write(send.Frame, 0, send.Frame.Length);
-                        ShowSendMessage(sendFrame.Frame);
+                        case "Led4On":
+                            {
+                                fun = FunEnum.LED4_ON;
+                                break;
+                            }
+                        case "Led4Off":
+                            {
+                                fun = FunEnum.LED4_OFF;
+                                break;
+                            }
+                        case "Led4Toggle":
+                            {
+                                fun = FunEnum.LED4_TOGLE;
+                                break;
+                            }
+                        default:
+                            {
+                                fun = FunEnum.None;
+                                break;
+                            }
+                    }
+                    if (fun != FunEnum.None)
+                    {
+                        //添加发送命令指令
+                        if (portState)
+                        {
+                            var send = new RTUFrame(downComputeAddress, fun);
+                            serialPort.Write(send.Frame, 0, send.Frame.Length);
+                            ShowSendMessage(send.Frame);
+                        }
                     }
                 }
-            }
-            
+
             }
             catch (Exception ex)
             {
@@ -255,45 +259,45 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
         {
             try
             {
-            if (e.OriginalSource is RadioButton)
-            {
-                var radio = e.OriginalSource as RadioButton;
-                FunEnum fun = FunEnum.None;
-                switch (radio.Name)
+                if (e.OriginalSource is RadioButton)
                 {
-                    case "LedAllOn":
-                        {
-                            fun = FunEnum.LED_ALL_ON;
-                            break;
-                        }
-                    case "LedAllOff":
-                        {
-                            fun = FunEnum.LED_ALL_OFF;
-                            break;
-                        }
-                    default:
-                        {
-                            fun = FunEnum.None;
-                            break;
-                        }
-                }
-                if (fun != FunEnum.None)
-                {
-                    //添加发送命令指令
-                    if (portState)
+                    var radio = e.OriginalSource as RadioButton;
+                    FunEnum fun = FunEnum.None;
+                    switch (radio.Name)
                     {
-                        var send = new RTUFrame(downComputeAddress, fun);
-                        serialPort.Write(send.Frame, 0, send.Frame.Length);
-                        ShowSendMessage(sendFrame.Frame);
+                        case "LedAllOn":
+                            {
+                                fun = FunEnum.LED_ALL_ON;
+                                break;
+                            }
+                        case "LedAllOff":
+                            {
+                                fun = FunEnum.LED_ALL_OFF;
+                                break;
+                            }
+                        default:
+                            {
+                                fun = FunEnum.None;
+                                break;
+                            }
+                    }
+                    if (fun != FunEnum.None)
+                    {
+                        //添加发送命令指令
+                        if (portState)
+                        {
+                            var send = new RTUFrame(downComputeAddress, fun);
+                            serialPort.Write(send.Frame, 0, send.Frame.Length);
+                            ShowSendMessage(send.Frame);
+                        }
                     }
                 }
-            }
             }
             catch (Exception ex)
             {
                 MessageBox.Show("LEDALL:" + ex.Message);
             }
-            
+
         }
 
         //折算到ADC值后的电流平方和
@@ -337,7 +341,7 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
                     }
                     var send = new RTUFrame(downComputeAddress, (byte)FunEnum.WRITE_EEPROM, senddata, (byte)senddata.Length);
                     serialPort.Write(send.Frame, 0, send.Frame.Length);
-                    ShowSendMessage(sendFrame.Frame);
+                    ShowSendMessage(send.Frame);
                     Thread.Sleep(100); //延时以等待下位机处理完毕
                 }
             }
@@ -355,19 +359,19 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
 
 
                 senddata[0] = (byte)((startAddress) % 256); //起始地址 低8位
-                senddata[1] = (byte)((startAddress) /256);  //起始地址  高8位
-                
+                senddata[1] = (byte)((startAddress) / 256);  //起始地址  高8位
+
                 int j = 2;
                 for (int i = 0; i < len; i++)
                 {
                     senddata[j++] = writeData[i];
                 }
-                
+
                 var send = new RTUFrame(downComputeAddress, (byte)FunEnum.WRITE_EEPROM, senddata, (byte)senddata.Length);
                 serialPort.Write(send.Frame, 0, send.Frame.Length);
                 ShowSendMessage(send.Frame);
                 //Thread.Sleep(100); //延时以等待下位机处理完毕
-                
+
             }
             else
             {
@@ -396,7 +400,7 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
                 sendata[i + 4] = timeByte[i];
             }
             return sendata;
-           
+
         }
         /// <summary>
         /// 设置短路速断保护
@@ -407,8 +411,8 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
         {
             try
             {
-               var senddata = SetProtectValueByTxt(suduanPotectCurrentTxt, suduanPotectTimeTxt);
-               EepromWrite(senddata, 0x200, 8);
+                var senddata = SetProtectValueByTxt(suduanPotectCurrentTxt, suduanPotectTimeTxt);
+                EepromWrite(senddata, protectSuduanEepromAddrrss, 8);
             }
             catch (Exception ex)
             {
@@ -426,7 +430,7 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
             try
             {
                 var senddata = SetProtectValueByTxt(yanshiPotectCurrentTxt, yanshiPotectTimeTxt);
-                EepromWrite(senddata, 0x208, 8);
+                EepromWrite(senddata, protectYanshiEepromAddrrss, 8);
             }
             catch (Exception ex)
             {
@@ -439,7 +443,7 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
             {
                 EepromWrite(currentSqureSum, 0); //写入电流数据
                 EepromWrite(timeDaoshu, 80); //写入时间倒数数据
-            }            
+            }
             catch (Exception ex)
             {
                 MessageBox.Show("发送命令:" + ex.Message);
@@ -460,10 +464,10 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
                 {
                     var send = new RTUFrame(downComputeAddress, FunEnum.PROTECT_RUN);
                     serialPort.Write(send.Frame, 0, send.Frame.Length);
-                    ShowSendMessage(sendFrame.Frame);
+                    ShowSendMessage(send.Frame);
                 }
             }
-            
+
             catch (Exception ex)
             {
                 MessageBox.Show("发送命令:" + ex.Message);
@@ -482,7 +486,7 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
                 {
                     var send = new RTUFrame(downComputeAddress, FunEnum.PROTECT_STOP);
                     serialPort.Write(send.Frame, 0, send.Frame.Length);
-                    ShowSendMessage(sendFrame.Frame);
+                    ShowSendMessage(send.Frame);
                 }
             }
             catch (Exception ex)
@@ -491,5 +495,45 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
 
             }
         }
+        /// <summary>
+        /// LCD显示
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        //private void SendLcdShow_Click(object sender, RoutedEventArgs e)
+        //{
+        //    try
+        //    {
+        //        if (portState)
+        //        {
+        //            byte x = byte.Parse(lcdXTxt.Text);
+        //            byte y = byte.Parse(lcdYTxt.Text);
+        //            if (lcdStrTxt.Text.Length == 0)
+        //            {
+        //                throw new ArgumentNullException("没有字符串");
+        //            }
+
+
+        //            byte[] array = new byte[lcdStrTxt.Text.Length + 2];
+        //            char[] str = lcdStrTxt.Text.ToCharArray();
+        //            array[0] = x;
+        //            array[y] = y;
+        //            var ar = unicode_1("智能").ToCharArray();
+
+
+        //            // for (byte i = 0;)
+
+        //            //  var send = new RTUFrame(downComputeAddress, FunEnum.LCD_SHOW);
+        //            //  serialPort.Write(send.Frame, 0, send.Frame.Length);
+        //            // ShowSendMessage(send.Frame);
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        MessageBox.Show(ex.Message, "LCD显示");
+
+        //    }
+        //}
+      
     }
 }

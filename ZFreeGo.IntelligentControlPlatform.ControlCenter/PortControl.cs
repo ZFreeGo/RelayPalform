@@ -39,6 +39,7 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
             serialPort.ReadTimeout = 500;
             serialPort.WriteTimeout = 500;
             //serialPort.DataReceived += DataReceivedHandler;
+            serialPort.DtrEnable = true;
 
             sendTest.IsEnabled = false;
             HexShow();
