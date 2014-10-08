@@ -49,9 +49,16 @@
                     Grid.ColumnSpan="2"  Grid.Row="5" VerticalAlignment="Center">打开串口</Button>
             </Grid>
         </GroupBox>
-        <GroupBox Header="故障类型" Grid.Row="1" Grid.Column="0">
-
-            <TextBlock  Margin="3" VerticalAlignment="Center" Background="AliceBlue" FontFamily="楷体" FontSize="20">短路保护</TextBlock>
+        <GroupBox Header="动作信息" Grid.Row="1" Grid.Column="0">
+            <StackPanel>
+                <Label FontSize="15" HorizontalContentAlignment="Center">保护类型</Label>
+                <TextBlock  Margin="3"  Background="AliceBlue" Name="showProtectType"
+                        FontFamily="楷体" FontSize="20" Foreground="Blue" >短路保护</TextBlock>
+                <Label FontSize="15" HorizontalContentAlignment="Center">动作时间(s)</Label>
+                <TextBlock  Margin="3"  Background="AliceBlue" Name="showProtectTime"
+                        FontFamily="楷体" FontSize="20" Foreground="Blue" >0</TextBlock>
+            </StackPanel>
+            
         </GroupBox>
         <TabControl  Grid.Row="0" Grid.RowSpan="2" Grid.Column="1" Margin="3" >
             <TabItem Header="保护设置">
@@ -129,10 +136,12 @@
             </TabItem>
             <TabItem Header="预览曲线"  VerticalAlignment="Top">
                 <Grid>
-                    <d3:ChartPlotter Name="plotter" Domain="{x:Static d3:DataDomains.XPositive}" Loaded="plotter_Loaded">
+                    <d3:ChartPlotter Name="plotter"  Domain="{x:Static d3:DataDomains.XPositive}" Loaded="plotter_Loaded">
                         <!--<d3:HorizontalAxisTitle Placement="Top">保护整定曲线预览</d3:HorizontalAxisTitle>
                         <d3:HorizontalAxisTitle Placement="Bottom">电流 I/In</d3:HorizontalAxisTitle>
-                        <d3:VerticalAxisTitle Placement="Left">时间(s)</d3:VerticalAxisTitle>-->
+                        <d3:VerticalAxisTitle Placement="Left">时间(s)</d3:VerticalAxisTitle>
+                        -->
+                        <d3:HorizontalAxis Name="timeAxis" Placement="Bottom" ></d3:HorizontalAxis>
                     </d3:ChartPlotter>
                 </Grid>
 

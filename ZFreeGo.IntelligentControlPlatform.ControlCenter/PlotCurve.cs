@@ -15,6 +15,8 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
     public partial class MainWindow
     {
         LineGraph curveFan;//反特性曲线
+        LineGraph curveYanshi;//延时曲线
+        LineGraph curveSuduan; //速断曲线
         
         private void plotter_Loaded(object sender, RoutedEventArgs e)
         {
@@ -30,23 +32,31 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
             plotter.MainVerticalAxis = yAxis;
             plotter.AxisGrid.DrawVerticalMinorTicks = true;
 
+            plotter.Legend.RemoveFromPlotter();
+            
+
         //    var genericPlotter = plotter.GetGenericPlotter();
         //    genericPlotter.DataRect = new GenericRect<double, double>(1, 0.001, 10, 1000);
 
 
             //  plotter.Viewport.Domain = new DataRect(1, 0.001, 10, 1000);
-            plotter.Viewport.Restrictions.Clear();
-            plotter.Viewport.Restrictions.Add(new DomainRestriction(new Rect(1, 0.01, 10, 100)));
+        ////    plotter.Viewport.Restrictions.Clear();
+      //      plotter.Viewport.Restrictions.Add(new DomainRestriction(new Rect(1, 0.001, 10, 1000)));
 
-            MinimalSizeRestriction minSize = new MinimalSizeRestriction();
+         //   MinimalSizeRestriction minSize = new MinimalSizeRestriction();
 
-            minSize.MinSize = 0.2;
-            plotter.Viewport.Restrictions.Add(minSize);
+         //   minSize.MinSize = 0.2;
+         //   plotter.Viewport.Restrictions.Add(minSize);
 
             //该区域为显示区域.
            // plotter.Viewport.Domain = new Rect(1, 0.001, 10, 1000);
 
-            plotter.FitToView();
+            plotter.MainHorizontalAxisVisibility= Visibility.Collapsed;
+            plotter.MainHorizontalAxis.Visibility = Visibility.Collapsed;
+            timeAxis.LabelProvider = new ToStringLabelProvider();
+            timeAxis.LabelProvider.LabelStringFormat = "{0}";
+            timeAxis.LabelProvider.SetCustomFormatter(info => (string.Format("{0:f2}",Math.Round(Math.Pow(10, info.Tick), 2))));
+           
         }
 
         /// <summary>
@@ -63,7 +73,7 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
                 Point[] pts = new Point[min];
                 for (int i = 0; i < min; i++)
                 {
-                    pts[i] = new Point(x[i], y[i]);
+                    pts[i] = new Point(Math.Log10(x[i]), y[i]);
                 }
 
                 var ds = new EnumerableDataSource<Point>(pts);
@@ -78,7 +88,7 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
             }
         }
 
-        void plotShowCurve(IPointDataSource source)
+        void plotShowCurve(IPointDataSource source,ref LineGraph line, Pen pen,string str)
         {
             try
             {
@@ -86,23 +96,14 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
                 {
                     throw new Exception("数据为空!");
                 }
-                if (curveFan != null)
+                if (line != null)
                 {
-                     plotter.Children.Remove(curveFan);
+                    plotter.Children.Remove(line);
                 }
-                //if (curveFan == null)
-                //{
-                //    curveFan = new LineGraph(source);
-                //}
-                //else
-                //{
-                //    plotter.Children.Remove(curveFan);
-                //   // curveFan.DataSource = source;
-                //}
-                var pen = new Pen(new SolidColorBrush(Colors.Blue), 3);
-                PenDescription dsc = new PenDescription("反特性");
-                curveFan = plotter.AddLineGraph(source, pen, dsc);
-                plotter.Legend.RemoveFromPlotter();
+           //     var pen = new Pen(new SolidColorBrush(Colors.Blue), 3);
+                PenDescription dsc = new PenDescription(str);
+                line = plotter.AddLineGraph(source, pen, dsc);
+               
                 plotter.FitToView();
             }
             catch (Exception ex)
@@ -110,5 +111,6 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
                 MessageBox.Show(ex.Message, "绘制反时限特性曲线");
             }
         }
+       
     }
 }

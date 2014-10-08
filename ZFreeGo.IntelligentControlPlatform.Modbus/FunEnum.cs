@@ -29,6 +29,11 @@ namespace ZFreeGo.IntelligentControlPlatform.Modbus
         WRITE_EEPROM = 0x30,
         READ_EEPROM = 0x31,
 
+        PROTECT_FANSHIXIAN = 0x32,
+        PROTECT_YANSHI = 0x33,
+        PROTECT_SUDUAN = 0x34,
+
+
         SET_SUDUAN_PROTECT = 0x42,
         SET_YANSHI_PROTECT = 0x43,
 

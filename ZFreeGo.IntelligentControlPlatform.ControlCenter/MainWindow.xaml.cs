@@ -25,6 +25,8 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
         public MainWindow()
         {
             InitializeComponent();
+
+           
         }
 
         private void Window_Closed(object sender, EventArgs e)
@@ -264,6 +266,8 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
                 var resultCurrentNum = new double[len];
                 var resultTimeNum = new double[len];
                     
+
+
                 for (int i = 0; i < len; i++)
                 {
                     resultCurrentNum[i] =  Convert.ToDouble(resultCurrentStr[i]);
@@ -271,7 +275,16 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
                 }
 
                 var pdata = PlotTrisCurveData(resultCurrentNum, resultTimeNum);
-                plotShowCurve(pdata);
+                plotShowCurve(pdata,ref curveFan, new Pen(new SolidColorBrush(Colors.Blue), 2), "反时限");
+
+                var medium = TxtToReal(suduanPotectCurrentTxt, suduanPotectTimeTxt);
+
+                pdata = PlotTrisCurveData(new double[] { medium.Item1, 10 }, new double[] { medium.Item2, medium.Item2 });
+                plotShowCurve(pdata,ref curveSuduan, new Pen(new SolidColorBrush(Colors.Red), 2), "短路速断");
+
+                var medium2 = TxtToReal(yanshiPotectCurrentTxt, yanshiPotectTimeTxt);
+                pdata = PlotTrisCurveData(new double[] { medium2.Item1, medium.Item1 }, new double[] { medium2.Item2, medium2.Item2 });
+                 plotShowCurve(pdata,ref curveYanshi, new Pen(new SolidColorBrush(Colors.Green), 2), "短路延时");
 
             }
             catch (Exception ex)
@@ -285,6 +298,7 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
 
         }
 
+   
         
 
         

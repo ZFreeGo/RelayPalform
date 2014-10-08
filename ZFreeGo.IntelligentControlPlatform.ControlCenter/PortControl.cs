@@ -218,7 +218,10 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
 
       
                 };
-
+            Action<RTUFrame> callExecute = ar =>
+                {
+                    ExecuteFuncode(ar);
+                };
             var reciveTool = new ReciveRtuFrame();
             reciveTool.ReciveAbyte = reciveByte;
            /// Dispatcher.BeginInvoke(call, "start");
@@ -229,15 +232,10 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
                     try
                     {
 
-                        if (reciveTool.JudgeGetByte(sendFrame))
+                        if (reciveTool.JudgeGetByte(baseFrame))
                         {
-                            //Dispatcher.BeginInvoke(call, "接收帧");
-                            //foreach (var cha in reciveTool.ReciveFrame.Frame)
-                            //{
-                            //    Dispatcher.BeginInvoke(call, cha);
-                            //}
+                            Dispatcher.Invoke(callExecute,reciveTool.ReciveFrame);
                             Dispatcher.BeginInvoke(callShowRecivFrame, reciveTool.ReciveFrame);
-                            
                         }
                         Thread.Sleep(100);
                         //string message = serialPort.ReadLine();
@@ -253,6 +251,53 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
                     Trace.WriteLine("串口接收进程::" + ex.Message);
                 }
             }
+        }
+
+        void ExecuteFuncode(RTUFrame frame)
+        {
+            try
+            {
+                bool state = false;
+               switch ((FunEnum)frame.Function)
+               {
+                   case FunEnum.PROTECT_FANSHIXIAN:
+                       {
+                           showProtectType.Text = "过载保护";
+                           state = true;
+                           break;
+                       }
+                   case FunEnum.PROTECT_YANSHI:
+                       {
+                           showProtectType.Text = "短路延时保护";
+                           state = true;
+                           break;
+                       }
+                   case FunEnum.PROTECT_SUDUAN:
+                       {
+                           showProtectType.Text = "短路速断保护";
+                           state = true;
+                           break;
+                       }
+                   default:
+                       {
+                           break;
+                       }
+               }
+                if (state)
+                {
+                    UInt32 time = frame.FrameData[0] + (UInt32)((UInt32)frame.FrameData[1] << 8)
+                               + (UInt32)((UInt32)frame.FrameData[2] << 16) + (UInt32)((UInt32)frame.FrameData[3] << 24);
+                    showProtectTime.Text = ((double)time * 1e-3).ToString();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                //Action<Exception> call = ar => { MessageBox.Show(ar.Message, "接收帧"); };
+
+                MessageBox.Show(ex.Message, "接收帧");
+            }
+
         }
     }
 }

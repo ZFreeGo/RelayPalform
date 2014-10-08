@@ -17,7 +17,7 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
         private const byte maxPoint = 50;
 
         private RTUFrame sendFrame;
-
+        private RTUFrame baseFrame = new RTUFrame(downComputeAddress, FunEnum.None);
         /// <summary>
         /// 显示发送字节信息。
         /// </summary>
@@ -378,7 +378,21 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
                 throw new Exception("串口未设置。");
             }
         }
-        private byte[] SetProtectValueByTxt(TextBox currentTxt, TextBox timeBox)
+        private Tuple<double, double> TxtToReal(TextBox currentTxt, TextBox timeBox)
+        {
+            var value = double.Parse(currentTxt.Text);
+            var checkvalue = Tool.CheckBound(value, 1, 10);
+            currentTxt.Text = checkvalue.ToString();
+
+            value = double.Parse(timeBox.Text);
+            var time = Tool.CheckBound(value, 0.001, 1000);
+            timeBox.Text = time.ToString();
+
+
+            return new Tuple<double, double>(checkvalue, time);
+
+        }
+        private Tuple<uint, uint> TxtToUint(TextBox currentTxt, TextBox timeBox)
         {
             var value = double.Parse(currentTxt.Text);
             var checkvalue = Tool.CheckBound(value, 1, 10);
@@ -390,8 +404,13 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
             timeBox.Text = checkvalue.ToString();
             uint mcuTime = Tool.CalMcuTimeByReal(checkvalue);
 
-            byte[] currByte = Tool.Uint32ToByte(mcuCurrent);
-            byte[] timeByte = Tool.Uint32ToByte(mcuTime);
+            return new Tuple<uint, uint>(mcuCurrent, mcuTime);
+
+        }
+        private byte[] TrisToSendFormat(Tuple<uint, uint> value)
+        {
+            byte[] currByte = Tool.Uint32ToByte(value.Item1);
+            byte[] timeByte = Tool.Uint32ToByte(value.Item2);
 
             byte[] sendata = new byte[8];
             for (byte i = 0; i < 4; i++)
@@ -400,7 +419,6 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
                 sendata[i + 4] = timeByte[i];
             }
             return sendata;
-
         }
         /// <summary>
         /// 设置短路速断保护
@@ -411,7 +429,8 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
         {
             try
             {
-                var senddata = SetProtectValueByTxt(suduanPotectCurrentTxt, suduanPotectTimeTxt);
+                var medium = TxtToUint(suduanPotectCurrentTxt, suduanPotectTimeTxt);
+                var senddata = TrisToSendFormat(medium);
                 EepromWrite(senddata, protectSuduanEepromAddrrss, 8);
             }
             catch (Exception ex)
@@ -429,7 +448,8 @@ namespace ZFreeGo.IntelligentControlPlatform.ControlCenter
         {
             try
             {
-                var senddata = SetProtectValueByTxt(yanshiPotectCurrentTxt, yanshiPotectTimeTxt);
+                var medium = TxtToUint(yanshiPotectCurrentTxt, yanshiPotectTimeTxt);
+                var senddata = TrisToSendFormat(medium);
                 EepromWrite(senddata, protectYanshiEepromAddrrss, 8);
             }
             catch (Exception ex)
